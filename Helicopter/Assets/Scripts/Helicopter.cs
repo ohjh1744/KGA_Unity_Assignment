@@ -21,15 +21,18 @@ public class Helicopter : MonoBehaviour
     [SerializeField] private Transform  _missilePos;
     [SerializeField] private GameObject _missile;
     [SerializeField] private float _attackTime;
-
-
+    private float _lastAttackTime;
     private float _energeTime = 0.1f;
     private float _lastEnergeTime;
-    private float _lastAttackTime;
+
+    
+
+    //입력변수
     private float _hMove;
     private float _vMove;
     private bool _isFly;
     private bool _isFire;
+
     private Transform _transform;
     private Rigidbody _rigidbody;
 
