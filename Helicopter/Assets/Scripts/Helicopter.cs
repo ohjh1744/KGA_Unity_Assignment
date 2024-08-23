@@ -100,13 +100,11 @@ public class Helicopter : MonoBehaviour
                 _energe--;
                 _lastEnergeTime = Time.time;
             }
-            _rigidbody.useGravity = false;
             _rigidbody.isKinematic = true;
             _transform.Translate(Vector3.up * _upSpeed * Time.deltaTime, Space.Self);
         }
         else if (_rotateBladeRate < 5f || _energe < 1f)
         {
-            _rigidbody.useGravity = true;
             _rigidbody.isKinematic = false;
         }
     }
