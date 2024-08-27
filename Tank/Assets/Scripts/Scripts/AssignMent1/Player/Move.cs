@@ -19,8 +19,31 @@ public class Move : MonoBehaviour
     
     void Update()
     {
-        _hMove = Input.GetAxisRaw("Horizontal");
-        _vMove = Input.GetAxisRaw("Vertical");
+        if (Input.GetKey(KeyCode.A))
+        {
+            _hMove = -1;
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            _hMove = 1;
+        }
+        if (Input.GetKey(KeyCode.W))
+        {
+            _vMove = 1;
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            _vMove = -1;
+        }
+        if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
+        {
+            _hMove = 0;
+        }
+        if (Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.W))
+        {
+            _vMove = 0;
+        }
+
         OnMove();
         OnTurn();
     }

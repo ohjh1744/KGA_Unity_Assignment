@@ -42,9 +42,9 @@ public class Attack : MonoBehaviour
 
     void OnAttack()
     {
-        if (_isAttack && Bullet.MaxBullets[currentBullet] < 5)
+        if (_isAttack)
         {
-            GameObject bullet = ObjectPull.pullManager.Get(currentBullet);
+            GameObject bullet = PullManager._pullManager.GetBullet(currentBullet);
             bullet.transform.position = _posFire.position;
             bullet.transform.rotation = _posFire.rotation;
           
