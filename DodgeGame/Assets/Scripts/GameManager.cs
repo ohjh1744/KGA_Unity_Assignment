@@ -1,23 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
-public enum GameState { Ready, Running, GameOver}
+public enum GameState { Ready, Running, GameOver }
 public class GameManager : MonoBehaviour
 {
     [SerializeField] GameState _curState;
     [SerializeField] TowerController[] _towers;
     [SerializeField] PlayerController _playerController;
     [SerializeField] Text _text;
+    [SerializeField] Text _highRecordText;
+    [SerializeField] Text _currentRecordText;
+    [SerializeField] float _highRecord;
+    [SerializeField] float _currentRecord;
     [SerializeField] GameObject _button;
-
-    [SerializeField]private float _timer;
-    [SerializeField] private float _maxTimer;
+    [SerializeField] private float _timer;
     void Start()
     {
+        Load();
         _curState = GameState.Ready;
         _towers = FindObjectsOfType<TowerController>();
         _playerController = FindObjectOfType<PlayerController>();
@@ -28,13 +28,9 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         ShowText();
-        _timer += Time.deltaTime;
-        if(_timer > _maxTimer)
-        {
-            GameOver();
-        }
+        RecordTime();
 
-        if(_curState == GameState.Ready && Input.anyKeyDown)
+        if (_curState == GameState.Ready && Input.anyKeyDown)
         {
             GameStart();
         }
@@ -50,7 +46,7 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1;
         _curState = GameState.Running;
-        foreach(TowerController tower in _towers)
+        foreach (TowerController tower in _towers)
         {
             tower.StartAttack();
         }
@@ -59,6 +55,7 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         Time.timeScale = 0;
+        Save();
         _curState = GameState.GameOver;
         _button.SetActive(true);
         foreach (TowerController tower in _towers)
@@ -67,19 +64,49 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ShowText()
+    private void ShowText()
     {
-        if(_curState == GameState.Ready)
+        if (_curState == GameState.Ready)
         {
             _text.text = "Ready 상태";
         }
-        else if(_curState == GameState.Running)
+        else if (_curState == GameState.Running)
         {
             _text.text = "Running 상태";
         }
-        else if(_curState == GameState.GameOver)
+        else if (_curState == GameState.GameOver)
         {
             _text.text = "GameOver 상태";
         }
+        _currentRecordText.text = _currentRecord.ToString("F2");
+    }
+
+
+    private void RecordTime()
+    {
+        if(_curState == GameState.Running)
+        {
+            _currentRecord += Time.deltaTime;
+        }
+    }
+    private void Save()
+    {
+        if(_currentRecord > _highRecord)
+        {
+            PlayerPrefs.SetFloat("HighRecord", _currentRecord);
+        }
+    }
+
+    private void Load()
+    {
+        if (PlayerPrefs.HasKey("HighRecord") == true)
+        {
+            _highRecord = PlayerPrefs.GetFloat("HighRecord");
+        }
+        else
+        {
+            _highRecord = 0f;
+        }
+        _highRecordText.text = _highRecord.ToString("F2");
     }
 }

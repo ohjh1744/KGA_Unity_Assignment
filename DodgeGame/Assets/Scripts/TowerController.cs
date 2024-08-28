@@ -4,33 +4,28 @@ using UnityEngine;
 
 public class TowerController : MonoBehaviour
 {
+    [SerializeField] private Transform _target;
+    [SerializeField] private float _bulletTime; // 총알 생성 주기
+    [SerializeField] private float _remainTime; // 다음 총알 생성까지 기다린 시간
+    [SerializeField] private int _numBulletType; //총알 타입 개수
 
-    [SerializeField] private Transform target;
-    [SerializeField] private float bulletTime; //총알 생성주기
-    [SerializeField] private float remainTime; // 다음 총알 생성까지 기다린 시간
-    [SerializeField] private GameObject bulletPrefab;
+    private bool _isAttacking;
 
-    private bool _isAttacking; 
-    void Start()
-    {
-        target = GameObject.FindGameObjectWithTag("Player").transform;
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        //다음 총알 생성까지 남은시간 계속 차감.
-        if(_isAttacking == true)
+        if (_isAttacking)
         {
-            remainTime -= Time.deltaTime;
+            _remainTime -= Time.deltaTime;
 
-            if (remainTime <= 0)
+            if (_remainTime <= 0)
             {
-                GameObject bulletGameObj = Instantiate(bulletPrefab);
+                int numBullet = Random.Range(0, _numBulletType );
+                GameObject bulletGameObj = PullManager._pullManager.GetBullet(numBullet);
                 Bullet bullet = bulletGameObj.GetComponent<Bullet>();
                 bullet.transform.position = transform.position;
-                bullet.SetTarget(target);
-                remainTime = bulletTime;
+                bullet.transform.LookAt(_target.position);
+
+                _remainTime = Random.Range(0, _bulletTime);
             }
         }
     }
@@ -44,6 +39,4 @@ public class TowerController : MonoBehaviour
     {
         _isAttacking = false;
     }
-
-
 }

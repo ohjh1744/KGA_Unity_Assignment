@@ -5,20 +5,24 @@ using UnityEngine;
 public class PullManager : MonoBehaviour
 {
     public static PullManager _pullManager;
-    [SerializeField] private GameObject _monster;
-    private List<GameObject> _monsterPools;
+    [SerializeField] private GameObject[] _bullets;
+    [SerializeField] List<GameObject>[] _bulletPools;
 
     void Awake()
     {
         _pullManager = this;
-        _monsterPools = new List<GameObject>();
+        _bulletPools = new List<GameObject>[_bullets.Length];
+        for (int i = 0; i < _bullets.Length; i++)
+        {
+            _bulletPools[i] = new List<GameObject>();
+        }
     }
 
-    public GameObject GetMonster()
+    public GameObject GetBullet(int num)
     {
         GameObject select = null;
 
-        foreach (GameObject item in _monsterPools)
+        foreach (GameObject item in _bulletPools[num])
         {
             if (!item.activeSelf)
             {
@@ -30,8 +34,8 @@ public class PullManager : MonoBehaviour
 
         if (select == null)
         {
-            select = Instantiate(_monster, transform);
-            _monsterPools.Add(select);
+            select = Instantiate(_bullets[num], transform);
+            _bulletPools[num].Add(select);
         }
 
         return select;

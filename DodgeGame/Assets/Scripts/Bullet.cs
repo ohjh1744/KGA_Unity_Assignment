@@ -1,45 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
-public class Bullet : MonoBehaviour
+public abstract class Bullet : MonoBehaviour
 {
+    [SerializeField] protected float _speed;
+    protected Rigidbody _rigid;
 
-    [SerializeField] float _speed;
-    [SerializeField] Transform _target;
-    Rigidbody _rigid;
-    void Awake()
+    protected virtual void Awake()
     {
         _rigid = GetComponent<Rigidbody>();
     }
 
-    private void Start()
+    public void Start()
     {
-        transform.LookAt(_target.position);
+        _rigid.velocity = Vector3.zero;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        _rigid.velocity = transform.forward * _speed;
+        OnFire();
     }
 
-    public void SetTarget(Transform target)
-    {
-        this._target = target;
-    }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "Player")
+        if (collision.gameObject.CompareTag("Player"))
         {
             PlayerController playerController = collision.gameObject.GetComponent<PlayerController>();
             playerController.TakeDamage();
-            Destroy(gameObject);
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+        gameObject.SetActive(false);
     }
+
+    public abstract void OnFire();
+
 }
