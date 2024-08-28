@@ -13,11 +13,6 @@ public abstract class Bullet : MonoBehaviour
         _rigid = GetComponent<Rigidbody>();
     }
 
-    public void Start()
-    {
-        _rigid.velocity = Vector3.zero;
-    }
-
     private void Update()
     {
         OnFire();
