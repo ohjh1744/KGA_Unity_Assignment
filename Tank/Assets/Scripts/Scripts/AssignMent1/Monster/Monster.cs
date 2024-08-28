@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour, IDamagable
 {
-    [SerializeField] private int _hp = 3;
+    [SerializeField] private int _hp;
 
 
     private void Update()

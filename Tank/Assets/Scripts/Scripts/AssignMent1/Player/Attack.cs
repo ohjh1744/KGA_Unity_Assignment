@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum BulletNum {첫번째탄환 , 두번째탄환, 세번째탄환 }
+public enum BulletNum {첫번째탄환 , 두번째탄환 }
 public class Attack : MonoBehaviour
 {
     private bool _isAttack;
@@ -33,10 +33,6 @@ public class Attack : MonoBehaviour
         else if (_isSecondBullet)
         {
             currentBullet = (int)BulletNum.두번째탄환;
-        }
-        else if (_isThirdBullet)
-        {
-            currentBullet = (int)BulletNum.세번째탄환;
         }
     }
 

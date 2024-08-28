@@ -13,6 +13,7 @@ public class RotateHead : MonoBehaviour
  
     void Update()
     {
+        //프로젝트 세팅에서 vertical과 horizontal의 a, d, s, w는 제거.
         _yRotate = Input.GetAxis("Vertical");
         _xRotate = Input.GetAxis("Horizontal");
         OnRotateHead();

@@ -8,7 +8,7 @@ public abstract class Bullet : MonoBehaviour
     [HideInInspector] public Rigidbody Rigid;
     [SerializeField] private int _bulletDamage;
     public float BulletSpeed;
-    private float _remainTime = 10f;
+    [SerializeField] private float _remainTime;
     
 
     private void Awake()

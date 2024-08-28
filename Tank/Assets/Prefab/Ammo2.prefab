@@ -130,3 +130,4 @@ MonoBehaviour:
   Rigid: {fileID: 0}
   _bulletDamage: 2
   BulletSpeed: 300
+  _remainTime: 10

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CurvableBullet : Bullet
 {
-    private bool _isFired = false;
+    private bool _isFired;
 
     public override void OnDisable()
     {

@@ -5,7 +5,7 @@ using UnityEngine.Rendering;
 
 public class SpawnManager : MonoBehaviour
 {
-    private float _spawnTime = 2f;
+    [SerializeField]private float _spawnTime;
     private float _spawnLastTime = 0f;
     private int _spawnNum = 0;
 
