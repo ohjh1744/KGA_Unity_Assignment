@@ -212,6 +212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spawnTime: 2
+  _maxSpawnNum: 10
   _spawnPoints:
   - {fileID: 1965156784}
   - {fileID: 710127131}
@@ -869,6 +870,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _camera: {fileID: 899486624}
   _damage: 1
+  _reLoadTime: 2
+  _fireRateTime: 0.2
+  _ammo: 30
+  _maxAmmo: 30
 --- !u!1 &1656315904
 GameObject:
   m_ObjectHideFlags: 0

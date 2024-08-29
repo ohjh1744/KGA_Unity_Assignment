@@ -4,27 +4,47 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    [SerializeField]private float _spawnTime;
-    private float _spawnLastTime = 0f;
-    private int _spawnNum = 0;
-
+    [SerializeField]float _spawnTime;
+    [SerializeField] private int _maxSpawnNum;
     [SerializeField] private Transform[] _spawnPoints;
 
+    private int _spawnNum = 0;
+    Coroutine _coroutine;
+    WaitForSeconds _coSpawnTime;
+
+    private void Awake()
+    {
+        _coSpawnTime = new WaitForSeconds(_spawnTime);
+    }
+
+    private void Start()
+    {
+        _coroutine = StartCoroutine(SpawnMonster());
+    }
 
     private void Update()
     {
-        SpawnMonster();
+        if(_spawnNum == _maxSpawnNum && _coroutine != null)
+        {
+            StopCoroutine(_coroutine);
+            _coroutine = null;
+        }
     }
 
-    private void SpawnMonster()
+    private IEnumerator SpawnMonster()
     {
-        if ((Time.time - _spawnLastTime > _spawnTime) && _spawnNum < 10)
+        while(_spawnNum < _maxSpawnNum)
         {
             GameObject monster = PullManager._pullManager.GetMonster();
             monster.transform.position = _spawnPoints[_spawnNum].position;
-            _spawnLastTime = Time.time;
             _spawnNum++;
+
+            yield return _coSpawnTime;
+
         }
+
+        
+
     }
 
 

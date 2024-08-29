@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Move : MonoBehaviour
+public class PlayerMove : MonoBehaviour
 {
     [SerializeField] private float _speed;
     private Rigidbody _rigid;
@@ -18,11 +18,11 @@ public class Move : MonoBehaviour
     {
         _hMove = Input.GetAxisRaw("Horizontal");
         _vMove = Input.GetAxisRaw("Vertical");
-        OnMove();
+        Move();
     }
 
 
-    private void OnMove()
+    private void Move()
     {
         _moveDir = new Vector3(_hMove, 0, _vMove);
         Vector3 dir = transform.rotation * _moveDir * _speed;
