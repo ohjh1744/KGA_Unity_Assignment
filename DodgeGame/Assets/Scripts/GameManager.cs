@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public enum GameState { Ready, Running, GameOver }
 public class GameManager : MonoBehaviour
 {
+
     [SerializeField] GameState _curState;
     [SerializeField] TowerController[] _towers;
     [SerializeField] PlayerController _playerController;
@@ -13,11 +14,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] Text _currentRecordText;
     [SerializeField] float _highRecord;
     [SerializeField] float _currentRecord;
+    [SerializeField] float _onCleaerZoneTime;
     [SerializeField] GameObject _button;
-    [SerializeField] private float _timer;
+    [SerializeField] GameObject _clearZone;
+
     void Start()
     {
-        Load();
         _curState = GameState.Ready;
         _towers = FindObjectsOfType<TowerController>();
         _playerController = FindObjectOfType<PlayerController>();
@@ -27,8 +29,10 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Load();
         ShowText();
         RecordTime();
+        OnClearZone();
 
         if (_curState == GameState.Ready && Input.anyKeyDown)
         {
@@ -55,7 +59,6 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         Time.timeScale = 0;
-        Save();
         _curState = GameState.GameOver;
         _button.SetActive(true);
         foreach (TowerController tower in _towers)
@@ -89,15 +92,16 @@ public class GameManager : MonoBehaviour
             _currentRecord += Time.deltaTime;
         }
     }
-    private void Save()
+    public void Save()
     {
+
         if(_currentRecord > _highRecord)
         {
             PlayerPrefs.SetFloat("HighRecord", _currentRecord);
         }
     }
 
-    private void Load()
+    public void Load()
     {
         if (PlayerPrefs.HasKey("HighRecord") == true)
         {
@@ -108,5 +112,13 @@ public class GameManager : MonoBehaviour
             _highRecord = 0f;
         }
         _highRecordText.text = _highRecord.ToString("F2");
+    }
+
+    public void OnClearZone()
+    {
+        if(_currentRecord > _onCleaerZoneTime)
+        {
+            _clearZone.SetActive(true);
+        }
     }
 }
