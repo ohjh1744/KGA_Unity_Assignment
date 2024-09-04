@@ -17,7 +17,7 @@ public class MoveCamera : MonoBehaviour
         Initialize();
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         InputMousePos();
         RotateCamera();
