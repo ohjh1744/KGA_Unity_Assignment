@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.UIElements;
 using UnityEngine;
 
-public class RollState : MoveState
+public class RollState : SkillState
 {
     private Animator _anim;
     private Rigidbody _rigid;
@@ -11,38 +11,44 @@ public class RollState : MoveState
     private float _curTime;
     private float _rollForce;
 
-    public override void Enter(PlayerStateMachine player)
+    PlayerStateMachine _player;
+    public RollState(PlayerStateMachine player)
+    {
+        _player = player;
+    }
+
+    public override void Enter()
     {
         Debug.Log("RollState 진입");
-        _rigid = player.GetComponent<Rigidbody>();
-        _origintime = player._playerData.RollTime;
+        _rigid = _player.GetComponent<Rigidbody>();
+        _origintime = _player._playerData.RollTime;
         _curTime = _origintime;
-        _rollForce = player._playerData.RollForce;
-        Roll(player);
-        _anim = player.GetComponent<Animator>();
+        _rollForce = _player._playerData.RollForce;
+        Roll();
+        _anim = _player.GetComponent<Animator>();
         _anim.SetBool("isRoll", true);
     }
 
-    public override void Update(PlayerStateMachine player)
+    public override void Update()
     {
         _curTime -= Time.deltaTime;
         if (_curTime < 0)
         {
-            player.ChangeMoveState(new WaitState());
+            _player.ChangeSkillState(new SkillIdleState(_player));
         }
     }
 
-    public override void Exit(PlayerStateMachine player)
+    public override void Exit()
     {
         _curTime = _origintime;
         _anim.SetBool("isRoll", false);
         Debug.Log("RollState 나감");
     }
 
-    private void Roll(PlayerStateMachine player)
+    private void Roll()
     {
         //_rigid.AddForce(player.transform.forward * _rollForce);
-        _rigid.velocity = player.transform.forward * 3 * player._playerData.Speed;
+        _rigid.velocity = _player.transform.forward * 3 * _player._playerData.Speed;
 
     }
     

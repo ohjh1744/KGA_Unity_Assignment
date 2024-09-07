@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class MoveState : IState
 {
-    public abstract void Enter(PlayerStateMachine stateMachine);
-    public abstract void Update(PlayerStateMachine stateMachine);
-    public abstract void Exit(PlayerStateMachine stateMachine);
+    public abstract void Enter();
+    public abstract void Update();
+    public abstract void Exit();
 }

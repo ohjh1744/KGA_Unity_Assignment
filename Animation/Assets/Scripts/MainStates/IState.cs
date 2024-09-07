@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IState 
 {
-    void Enter(PlayerStateMachine player);
-    void Update(PlayerStateMachine player);
-    void Exit(PlayerStateMachine player);
+    void Enter();
+    void Update();
+    void Exit();
 }

@@ -7,38 +7,52 @@ public class PlayerStateMachine : MonoBehaviour
     public PlayerData _playerData;
     private MoveState _curMoveState;
     private AimState _curAimState;
+    private SkillState _curSkillState;
     private void Start()
     {
-        ChangeMoveState(new WaitState());
-        ChangeAimState(new IdleState());
+        ChangeMoveState(new WaitState(this));
+        ChangeAimState(new IdleState(this));
+        ChangeSkillState(new SkillIdleState(this));
     }
 
     private void Update()
     {
-        _curMoveState?.Update(this);
-        _curAimState?.Update(this);
+        _curMoveState?.Update();
+        _curAimState?.Update();
+        _curSkillState?.Update();
     }
 
     public void ChangeMoveState(MoveState newState)
     {
         if (_curMoveState != null)
         {
-            _curMoveState.Exit(this);
+            _curMoveState.Exit();
         }
 
         _curMoveState = newState;
-        _curMoveState.Enter(this);
+        _curMoveState.Enter();
     }
 
     public void ChangeAimState(AimState newState)
     {
         if (_curAimState != null)
         {
-            _curAimState.Exit(this);
+            _curAimState.Exit();
         }
 
         _curAimState = newState;
-        _curAimState.Enter(this);
+        _curAimState.Enter();
+    }
+
+    public void ChangeSkillState(SkillState newState)
+    {
+        if (_curSkillState != null)
+        {
+            _curSkillState.Exit();
+        }
+
+        _curSkillState = newState;
+        _curSkillState.Enter();
     }
 
 }

@@ -4,22 +4,27 @@ using UnityEngine;
 
 public class IdleState : AimState
 {
-    public override void Enter(PlayerStateMachine player)
+    PlayerStateMachine _player;
+    public IdleState(PlayerStateMachine player)
+    {
+        _player = player;
+    }
+    public override void Enter()
     {
         Debug.Log("IdleState에 진입");
     }
 
 
-    public override void Update(PlayerStateMachine player)
+    public override void Update()
     {
     
         if (Input.GetMouseButtonDown(0))
         {
-            player.ChangeAimState(new AimIdleState());
+            _player.ChangeAimState(new AimIdleState(_player));
         }
     }
 
-    public override void Exit(PlayerStateMachine player)
+    public override void Exit()
     {
         Debug.Log("IdleState에서 벗어남");
     }

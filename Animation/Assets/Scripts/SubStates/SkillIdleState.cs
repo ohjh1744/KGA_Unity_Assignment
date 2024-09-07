@@ -2,28 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaitState : MoveState
+public class SkillIdleState : SkillState
 {
     PlayerStateMachine _player;
-    public WaitState(PlayerStateMachine player)
+    public SkillIdleState(PlayerStateMachine player)
     {
         _player = player;
     }
     public override void Enter()
     {
-        Debug.Log("NotMoveState 진입");
+        Debug.Log("SkillIdel상태에 진입!");
     }
-
     public override void Update()
     {
-        if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            _player.ChangeMoveState(new WalkState(_player));
+            _player.ChangeSkillState(new RollState(_player));
         }
     }
-
     public override void Exit()
     {
-        Debug.Log("NotMoveState 나감");
+        Debug.Log("SkillIdel상태에 나감!");
     }
 }

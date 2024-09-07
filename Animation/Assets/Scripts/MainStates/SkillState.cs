@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public  abstract class AimState : IState
+public abstract class SkillState : IState
 {
     public abstract void Enter();
     public abstract void Update();
