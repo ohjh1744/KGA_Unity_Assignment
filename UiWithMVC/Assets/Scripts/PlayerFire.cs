@@ -17,7 +17,8 @@ public class PlayerFire : MonoBehaviour
     [SerializeField]private Camera _camera;
     [SerializeField]private Transform _zoomPos;
     [SerializeField]private float _fireRateTime;
-
+    // 줌시에 바라보는 방향으로 돌아가는 회전속도
+    [SerializeField] private float _zoomPlyaerRotateRate;
 
     private Coroutine _coroutineFire;
     private WaitForSeconds _coFireRateTime;
@@ -101,6 +102,9 @@ public class PlayerFire : MonoBehaviour
         _camera.transform.position = Vector3.Lerp(_originCamerapos, _zoomPos.position, 0.02f);
 
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+
+        Quaternion playerDir = Quaternion.LookRotation(ray.direction);
+        transform.rotation = Quaternion.Lerp(transform.rotation, playerDir, _zoomPlyaerRotateRate * Time.deltaTime);
         if (Physics.Raycast(ray, out RaycastHit hit, 100, LayerMask.GetMask("Damagable")))
         {
             if (hit.collider != null)
