@@ -31,11 +31,6 @@ public class CameraMove : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Vector3 playerRayDir = ray.direction;
-            playerRayDir.y = 0;
-            playerDir = Quaternion.LookRotation(playerRayDir);
-
             _xMousePos = Input.GetAxis("Mouse X");
             _yMousePos = Input.GetAxis("Mouse Y");
 
