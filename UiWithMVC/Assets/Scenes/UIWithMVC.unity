@@ -1200,6 +1200,7 @@ MonoBehaviour:
   _zoomPos: {fileID: 200451774}
   _fireRateTime: 0.5
   _zoomPlyaerRotateRate: 10
+  _zoomSpeed: 10
   _isZoom: 0
 --- !u!1 &1146384184
 GameObject:

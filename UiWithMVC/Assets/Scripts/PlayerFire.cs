@@ -19,6 +19,8 @@ public class PlayerFire : MonoBehaviour
     [SerializeField]private float _fireRateTime;
     // 줌시에 바라보는 방향으로 돌아가는 회전속도
     [SerializeField] private float _zoomPlyaerRotateRate;
+    // 줌들어가는 속도
+    [SerializeField] private float _zoomSpeed;
 
     private Coroutine _coroutineFire;
     private WaitForSeconds _coFireRateTime;
@@ -99,7 +101,7 @@ public class PlayerFire : MonoBehaviour
         _isZoom = true;
         _originCamerapos = _camera.transform.position;
         _aim.SetActive(true);
-        _camera.transform.position = Vector3.Lerp(_originCamerapos, _zoomPos.position, 0.02f);
+        _camera.transform.position = Vector3.Lerp(_originCamerapos, _zoomPos.position, _zoomSpeed * Time.deltaTime);
 
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
 

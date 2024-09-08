@@ -14,13 +14,10 @@ public class FollowCamera : MonoBehaviour
     private float _eulerAngleX;
     private float _eulerAngleY;
  
-
-
     public Quaternion _mouseRotation;
     private Vector3 _cameraVec;
 
-    //마우스 회전에 따른 Player가 바라봐야하는 방향
-    private Quaternion playerDir;
+
 
     void Start()
     {
@@ -33,11 +30,6 @@ public class FollowCamera : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Vector3 playerRayDir = ray.direction;
-            playerRayDir.y = 0;
-            playerDir = Quaternion.LookRotation(playerRayDir);
-
             _xMousePos = Input.GetAxis("Mouse X");
             _yMousePos = Input.GetAxis("Mouse Y");
 
@@ -47,10 +39,6 @@ public class FollowCamera : MonoBehaviour
 
             transform.rotation = _mouseRotation;
             _cameraVec = _mouseRotation * _offsetDistance;
-        }
-        if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            _player.rotation = Quaternion.Lerp(_player.rotation, playerDir, _cameraTurnSpeed * Time.deltaTime);
         }
 
         if (!_playerFire._isZoom)
