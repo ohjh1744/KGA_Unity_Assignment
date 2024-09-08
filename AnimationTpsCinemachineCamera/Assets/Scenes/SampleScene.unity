@@ -273,7 +273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 0.4, z: -5.32}
+  m_FollowOffset: {x: 0, y: 7.76, z: -5.37}
   m_XDamping: 6.9
   m_YDamping: 6.1
   m_ZDamping: 8.4
@@ -348,8 +348,8 @@ MonoBehaviour:
   m_ScreenY: 0.5
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
-  m_SoftZoneWidth: 0.8
-  m_SoftZoneHeight: 0.8
+  m_SoftZoneWidth: 0
+  m_SoftZoneHeight: 0
   m_BiasX: 0
   m_BiasY: 0
   m_CenterOnActivate: 1
@@ -394,7 +394,6 @@ MonoBehaviour:
   Speed: 2
   RotateSpeed: 10
   Camera: {fileID: 865304142}
-  RollForce: 100
   RollTime: 1
   IsAim: 0
 --- !u!114 &817477345
@@ -580,7 +579,7 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_YAxis:
-    Value: 0
+    Value: 1
     m_SpeedMode: 0
     m_MaxSpeed: 5
     m_AccelTime: 0
@@ -653,7 +652,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 865304138}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.2592567, y: 0.486, z: -4.73937}
+  m_LocalPosition: {x: 1.2592567, y: 7.846, z: -4.7893696}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -787,8 +786,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.027741067, y: -0.008896914, z: 0.0002469147, w: 0.99957556}
-  m_LocalPosition: {x: 1.2592567, y: 0.486, z: -4.73937}
+  m_LocalRotation: {x: 0.41416812, y: -0.00005038397, z: 0.000022926197, w: 0.9102004}
+  m_LocalPosition: {x: 1.2592567, y: 7.846, z: -4.7893696}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -876,7 +875,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 0.4, z: -5.32}
+  m_FollowOffset: {x: 0, y: 7.76, z: -5.37}
   m_XDamping: 4.9
   m_YDamping: 5.5
   m_ZDamping: 5.8
@@ -951,8 +950,8 @@ MonoBehaviour:
   m_ScreenY: 0.5
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
-  m_SoftZoneWidth: 0.8
-  m_SoftZoneHeight: 0.8
+  m_SoftZoneWidth: 0
+  m_SoftZoneHeight: 0
   m_BiasX: 0
   m_BiasY: 0
   m_CenterOnActivate: 1
@@ -1025,8 +1024,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1045888882}
-  m_LocalRotation: {x: -0.11083249, y: -0.000055531145, z: -0.000006192808, w: 0.99383914}
-  m_LocalPosition: {x: 0, y: -0.000000059604645, z: 0}
+  m_LocalRotation: {x: 0.41416818, y: -0.000050383966, z: 0.0000229262, w: 0.91020036}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1081,7 +1080,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 0.4, z: -5.32}
+  m_FollowOffset: {x: 0, y: 7.76, z: -5.37}
   m_XDamping: 6.4
   m_YDamping: 6.1
   m_ZDamping: 6.7
@@ -1156,8 +1155,8 @@ MonoBehaviour:
   m_ScreenY: 0.5
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
-  m_SoftZoneWidth: 0.8
-  m_SoftZoneHeight: 0.8
+  m_SoftZoneWidth: 0
+  m_SoftZoneHeight: 0
   m_BiasX: 0
   m_BiasY: 0
   m_CenterOnActivate: 1
@@ -1304,8 +1303,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1639729630}
-  m_LocalRotation: {x: -0.06525059, y: -0.00021592801, z: -0.0000141195205, w: 0.9978689}
-  m_LocalPosition: {x: 0, y: -0.000000059604645, z: 0}
+  m_LocalRotation: {x: 0.4320497, y: -0.00019332937, z: 0.00009261841, w: 0.9018498}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1382,8 +1381,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2042445244}
-  m_LocalRotation: {x: 0.027741063, y: -0.008896914, z: 0.00024691466, w: 0.99957556}
-  m_LocalPosition: {x: 0, y: -0.000000059604645, z: 0}
+  m_LocalRotation: {x: 0.4616554, y: -0.007821433, z: 0.004070737, w: 0.8870156}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

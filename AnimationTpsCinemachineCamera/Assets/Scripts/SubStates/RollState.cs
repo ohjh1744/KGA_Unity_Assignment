@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.UIElements;
 using UnityEngine;
 
 public class RollState : SkillState
@@ -11,6 +10,7 @@ public class RollState : SkillState
     private float _curTime;
 
     PlayerStateMachine _player;
+    private Vector3 _rollEndPosition;
     public RollState(PlayerStateMachine player)
     {
         _player = player;
@@ -22,13 +22,15 @@ public class RollState : SkillState
         _rigid = _player.GetComponent<Rigidbody>();
         _origintime = _player._playerData.RollTime;
         _curTime = _origintime;
-        Roll();
+        _rollEndPosition = _player.transform.position + _player.transform.forward * _player._playerData.Speed * 3;
         _anim = _player.GetComponent<Animator>();
         _anim.SetBool("isRoll", true);
+  
     }
 
     public override void Update()
     {
+        Roll();
         _curTime -= Time.deltaTime;
         if (_curTime < 0)
         {
@@ -39,15 +41,14 @@ public class RollState : SkillState
     public override void Exit()
     {
         _curTime = _origintime;
-        _player._playerData.Speed = _player._playerData.Speed / 3;
         _anim.SetBool("isRoll", false);
         Debug.Log("RollState ³ª°¨");
     }
 
     private void Roll()
     {
-        _player._playerData.Speed = _player._playerData.Speed * 3;
-
+        Vector3 newPosition = Vector3.Lerp(_player.transform.position, _rollEndPosition, 0.02f);
+        _rigid.MovePosition(newPosition);
     }
     
 }

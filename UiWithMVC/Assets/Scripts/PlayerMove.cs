@@ -23,8 +23,12 @@ public class PlayerMove : MonoBehaviour
     {
         _hMove = Input.GetAxisRaw("Horizontal");
         _vMove = Input.GetAxisRaw("Vertical");
-        Move();
         Turn();
+    }
+
+    private void FixedUpdate()
+    {
+        Move();
     }
 
     private void Move()
