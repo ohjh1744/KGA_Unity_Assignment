@@ -73,6 +73,10 @@ public class PlayerFire : MonoBehaviour
                 _coroutineFire = null;
             }
         }
+    }
+
+    private void LateUpdate()
+    {
         if (Input.GetMouseButton(1))
         {
             ZoomIn();
