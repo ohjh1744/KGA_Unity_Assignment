@@ -10,6 +10,7 @@ public class WalkState : MoveState
     private Rigidbody _rigid;
     private Animator _anim;
     PlayerStateMachine _player;
+    MoveCamera _moveCamera;
     public WalkState(PlayerStateMachine player)
     {
         _player = player;
@@ -19,6 +20,7 @@ public class WalkState : MoveState
         Debug.Log("WalkStateø° ¡¯¿‘");
         _rigid = _player.GetComponent<Rigidbody>();
         _anim = _player.GetComponent<Animator>();
+        _moveCamera = _player._playerData.Camera;
         _anim.SetBool("isWalk", true);
     }
 
@@ -27,7 +29,7 @@ public class WalkState : MoveState
     {
         Move();
         Turn();
-        if(_rigid.velocity == Vector3.zero)
+        if (_rigid.velocity == Vector3.zero)
         {
             _player.ChangeMoveState(new WaitState(_player));
         }

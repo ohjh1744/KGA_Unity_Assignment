@@ -46,10 +46,6 @@ public class CameraMove : MonoBehaviour
             transform.rotation = _mouseRotation;
             _cameraVec = _mouseRotation * _offsetDistance;
         }
-        if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            _player.rotation = Quaternion.Lerp(_player.rotation, playerDir, 0.02f);
-        }
 
         transform.position = _player.position + _cameraVec;
 
