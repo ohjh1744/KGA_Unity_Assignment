@@ -36,6 +36,5 @@ public class MoveCamera : MonoBehaviour
             _camera.m_YAxis.m_MaxSpeed = 0;
             _camera.m_XAxis.m_MaxSpeed = 0;
         }
-        Debug.Log(PlayerRotation);
     }
 }

@@ -8,7 +8,6 @@ public class PlayerData : MonoBehaviour
     public float Speed;
     public float RotateSpeed;
     public MoveCamera Camera;
-    public float RollForce;
     public float RollTime;
     public bool IsAim;
 }

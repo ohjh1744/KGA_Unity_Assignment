@@ -9,7 +9,6 @@ public class RollState : SkillState
     private Rigidbody _rigid;
     private float _origintime;
     private float _curTime;
-    private float _rollForce;
 
     PlayerStateMachine _player;
     public RollState(PlayerStateMachine player)
@@ -23,7 +22,6 @@ public class RollState : SkillState
         _rigid = _player.GetComponent<Rigidbody>();
         _origintime = _player._playerData.RollTime;
         _curTime = _origintime;
-        _rollForce = _player._playerData.RollForce;
         Roll();
         _anim = _player.GetComponent<Animator>();
         _anim.SetBool("isRoll", true);
@@ -41,14 +39,14 @@ public class RollState : SkillState
     public override void Exit()
     {
         _curTime = _origintime;
+        _player._playerData.Speed = _player._playerData.Speed / 3;
         _anim.SetBool("isRoll", false);
         Debug.Log("RollState ³ª°¨");
     }
 
     private void Roll()
     {
-        //_rigid.AddForce(player.transform.forward * _rollForce);
-        _rigid.velocity = _player.transform.forward * 3 * _player._playerData.Speed;
+        _player._playerData.Speed = _player._playerData.Speed * 3;
 
     }
     
