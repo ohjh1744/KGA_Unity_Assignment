@@ -47,7 +47,8 @@ public class WalkState : MoveState
     {
         _hMove = Input.GetAxisRaw("Horizontal");
         _vMove = Input.GetAxisRaw("Vertical");
-        _moveMent = new Vector3(_hMove, 0, _vMove).normalized;
+        _moveMent = _moveCamera.PlayerRotation * new Vector3(_hMove, 0, _vMove).normalized;
+        _moveMent.y = 0;
         _rigid.velocity = _moveMent * _player._playerData.Speed;
     }
 

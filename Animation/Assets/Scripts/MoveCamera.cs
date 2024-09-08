@@ -8,7 +8,6 @@ public class MoveCamera : MonoBehaviour
     [SerializeField] private CinemachineFreeLook _camera;
     [SerializeField] private float _ySpeed;
     [SerializeField] private float _xSpeed;
-    [SerializeField] private Transform _player;
     [SerializeField] private Vector3 _offsetDistance;
 
 
@@ -34,7 +33,6 @@ public class MoveCamera : MonoBehaviour
         }
         else
         {
-            _player.rotation = Quaternion.Lerp(_player.rotation, PlayerRotation, 0.02f);
             _camera.m_YAxis.m_MaxSpeed = 0;
             _camera.m_XAxis.m_MaxSpeed = 0;
         }
