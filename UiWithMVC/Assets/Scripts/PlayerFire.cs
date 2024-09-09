@@ -21,6 +21,8 @@ public class PlayerFire : MonoBehaviour
     [SerializeField] private float _zoomPlyaerRotateRate;
     // 줌들어가는 속도
     [SerializeField] private float _zoomSpeed;
+    [SerializeField] private GameObject WeaponCamera;
+    [SerializeField] private GameObject Weapon;
 
     private Coroutine _coroutineFire;
     private WaitForSeconds _coFireRateTime;
@@ -85,6 +87,8 @@ public class PlayerFire : MonoBehaviour
         {
             _isZoom = false;
             _aim.SetActive(false);
+            Weapon.SetActive(true);
+            WeaponCamera.SetActive(false);
         }
     }
 
@@ -105,7 +109,12 @@ public class PlayerFire : MonoBehaviour
         _isZoom = true;
         _originCamerapos = _camera.transform.position;
         _aim.SetActive(true);
+        //Lerp 때문에 줌상태에서 카메라가 따라오는게 약간 텀이 있어서 움직일때 Player나 총이 늦게 따라오는 현상이 발생
+        //이에 서브카메라를 둠.
+        // 만약 서브카메라 없이 하고 싶다면 Lerp를 없애면댐.
         _camera.transform.position = Vector3.Lerp(_originCamerapos, _zoomPos.position, _zoomSpeed * Time.deltaTime);
+        Weapon.SetActive(false);
+        WeaponCamera.SetActive(true);
 
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
 
