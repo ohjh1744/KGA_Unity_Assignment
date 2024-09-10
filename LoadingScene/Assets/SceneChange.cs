@@ -53,7 +53,7 @@ public class SceneChanger : MonoBehaviour
             yield return null;
         }
 
-        while (Input.anyKeyDown != false)
+        while (Input.anyKeyDown == false)
         {
             yield return null;
         }
