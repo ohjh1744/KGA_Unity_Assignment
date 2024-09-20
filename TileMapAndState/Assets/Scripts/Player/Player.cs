@@ -1,14 +1,12 @@
 using UnityEngine;
-
+public enum ENormalState { Normalidle, Move, Size };
+public enum ESKillState { SkillIdle, Jump, Size };
 public class Player : MonoBehaviour, IDamagable
 {
     [SerializeField]private GameManager gameManager;
     public PlayerData PlayerData;
     private NormalState currentNormalState;
     private SkillState currentSkillState;
-
-    public enum ENormalState {Normalidle, Move, Size};
-    public enum ESKillState { SkillIdle, Jump, Size};
     public NormalState[] NormalStates = new NormalState[(int)ENormalState.Size];
     public SkillState[] SkillStates = new SkillState[(int)ESKillState.Size];
 
