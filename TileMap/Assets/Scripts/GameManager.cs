@@ -3,10 +3,12 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-
-    public void GameReStart()
+    public void Start()
     {
         Time.timeScale = 1;
+    }
+    public void GameReStart()
+    {
         SceneManager.LoadScene(0);
     }
 
