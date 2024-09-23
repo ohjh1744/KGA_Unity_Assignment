@@ -9,14 +9,17 @@ public class PathFinder : MonoBehaviour
     [SerializeField] Transform endPos;
 
     [SerializeField] List<Vector2Int> path;
+    [SerializeField] float time;
     List<ASNode> openList;
     Dictionary<Vector2Int, bool> closeSet;
 
     private bool success;
     private Coroutine coroutine;
+    private WaitForSeconds seconds;
 
     private void Start()
     {
+        seconds = new WaitForSeconds(time);
         Vector2Int start = new Vector2Int((int)startPos.position.x, (int)startPos.position.y);
         Vector2Int end = new Vector2Int((int)endPos.position.x, (int)endPos.position.y);
 
@@ -149,7 +152,7 @@ public class PathFinder : MonoBehaviour
                 }
             }
 
-            yield return new WaitForSeconds(1f);
+            yield return seconds;
         }
 
         path = null;
