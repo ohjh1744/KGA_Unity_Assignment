@@ -154,6 +154,7 @@ MonoBehaviour:
   startPos: {fileID: 400775280}
   endPos: {fileID: 393748817}
   path: []
+  time: 1
 --- !u!4 &216908371
 Transform:
   m_ObjectHideFlags: 0
