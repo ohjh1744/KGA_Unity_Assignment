@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class PathFinder : MonoBehaviour
+public class MyPathFinder : MonoBehaviour
 {
     [SerializeField] Transform startPos;
     [SerializeField] Transform endPos;
 
     [SerializeField] List<Vector2Int> path;
-    [SerializeField] GameObject success;
-    [SerializeField] GameObject fail;
+
 
     private void Start()
     {
