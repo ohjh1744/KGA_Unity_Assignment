@@ -212,21 +212,21 @@ public class MyPathFinder : MonoBehaviour
 
 }
 
-public class ASNode
-{
-    public Vector2Int pos;  // 현재 정점 위치
-    public ASNode parent;   // 이 정점을 탐색한 정점
+//public class ASNode
+//{
+//    public Vector2Int pos;  // 현재 정점 위치
+//    public ASNode parent;   // 이 정점을 탐색한 정점
 
-    public int f;           // 예상 최종 거리 => f = g + h
-    public int g;           // 걸린 거리
-    public int h;           // 예상 남은 거리
+//    public int f;           // 예상 최종 거리 => f = g + h
+//    public int g;           // 걸린 거리
+//    public int h;           // 예상 남은 거리
 
-    public ASNode(Vector2Int pos, ASNode parent, int g, int h)
-    {
-        this.pos = pos;
-        this.parent = parent;
-        this.f = g + h;
-        this.g = g;
-        this.h = h;
-    }
-}
+//    public ASNode(Vector2Int pos, ASNode parent, int g, int h)
+//    {
+//        this.pos = pos;
+//        this.parent = parent;
+//        this.f = g + h;
+//        this.g = g;
+//        this.h = h;
+//    }
+//}
