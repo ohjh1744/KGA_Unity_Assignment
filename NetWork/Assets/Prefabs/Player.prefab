@@ -151,3 +151,4 @@ MonoBehaviour:
   _moveSpeed: 5
   _jumpEndPos: {x: 0, y: 3, z: 0}
   _jumpPower: 3
+  _oriYOffset: 0.5

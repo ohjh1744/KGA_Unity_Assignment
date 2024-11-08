@@ -10,6 +10,8 @@ public class PlayerController : NetworkBehaviour
 
     [SerializeField] private float _jumpPower;
 
+    [SerializeField] private float _oriYOffset;
+
     private Vector3 _inputDIr;
 
     private Vector3 _curDir;
@@ -67,7 +69,7 @@ public class PlayerController : NetworkBehaviour
         if (_isJumping == true)
         {
             // 원래 자리 돌아오면 점핑중 false하고 return
-            if (transform.position.y <= 0 + 0.5f && _isUp == false)
+            if (transform.position.y <= 0 + _oriYOffset && _isUp == false)
             {
                 Debug.Log("점프끝!!");
                 _isJumping = false;
@@ -88,7 +90,7 @@ public class PlayerController : NetworkBehaviour
             }
 
             // 원래자리돌아가기전까지 계속 내려가기
-            if (transform.position.y > 0 + 0.5f && _isUp == false)
+            if (transform.position.y > 0 + _oriYOffset && _isUp == false)
             {
                 Debug.Log("내려감!");
                 Vector3 newDir = new Vector3(_curDir.x, -1, _curDir.z);
