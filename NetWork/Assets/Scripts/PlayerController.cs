@@ -4,6 +4,10 @@ using UnityEngine;
 // 네트워크 오브젝트에 붙어서 게임오브젝트 Update동작관련일때 NetworkBehaviour 상속.
 public class PlayerController : NetworkBehaviour
 {
+    [SerializeField] private Weapon _weapon;
+
+    [SerializeField] PlayerModel _playerModel;
+
     [SerializeField] private float _moveSpeed;
 
     [SerializeField] private Vector3 _jumpEndPos;
@@ -32,6 +36,28 @@ public class PlayerController : NetworkBehaviour
             _isJumping = true;
             _isUp = true;
         }
+
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            // 내캐릭터가 아닌경우는 쏘면 안됨.
+            if(HasStateAuthority == false)
+            {
+                return;
+            }
+            Debug.Log("h");
+            _weapon.FIre();
+        }
+
+    }
+
+    //RPc: 원격 함수 호출
+    //RpcSources: 누가 실행할 수 있는지
+    //RpcTargets: 누구한테 보낼 것인지
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void TakeHitRpc(int damage)
+    {
+        Debug.Log("피격");
+        _playerModel.Hp--;
     }
 
     //네트워크에서 처리할 작업
@@ -54,6 +80,7 @@ public class PlayerController : NetworkBehaviour
             CameraController camController = Camera.main.GetComponent<CameraController>();
             camController._target = transform;
         }
+
     }
 
     private void Move()
