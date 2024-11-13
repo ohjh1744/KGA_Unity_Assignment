@@ -2,6 +2,7 @@ using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Pun.UtilityScripts;
 using Photon.Realtime;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using PhotonHashtable = ExitGames.Client.Photon.Hashtable;
@@ -11,9 +12,10 @@ public class RoomPanel : MonoBehaviour
     [SerializeField] PlayerEntry[] playerEntries;
     [SerializeField] Button startButton;
 
-    // 방에 들어왔었을 때
     private void OnEnable()
     {
+        UpdatePlayers();
+
         PlayerNumbering.OnPlayerNumberingChanged += UpdatePlayers;
 
         PhotonNetwork.LocalPlayer.SetReady(false);
@@ -39,6 +41,15 @@ public class RoomPanel : MonoBehaviour
             int number = player.GetPlayerNumber();
             playerEntries[number].SetPlayer(player);
         }
+
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        {
+            startButton.interactable = CheckAllReady();
+        }
+        else
+        {
+            startButton.interactable = false;
+        }
     }
 
     public void EnterPlayer(Player newPlayer)
@@ -55,12 +66,28 @@ public class RoomPanel : MonoBehaviour
 
     public void UpdatePlayerProperty(Player targetPlayer, Hashtable properties)
     {
-        // TODO : Ready 상황 같은 변경 감지
+        // 레디 커스텀 프로퍼티를 변경한 경우면 READY 키가 있음
+        if (properties.ContainsKey(CustomProperty.READY))
+        {
+            UpdatePlayers();
+        }
+    }
+
+    private bool CheckAllReady()
+    {
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            if (player.GetReady() == false)
+                return false;
+        }
+
+        return true;
     }
 
     public void StartGame()
     {
-        // TODO : 게임 시작 구현
+        PhotonNetwork.LoadLevel("GameScene");
+        PhotonNetwork.CurrentRoom.IsOpen = false;
     }
 
     public void LeaveRoom()

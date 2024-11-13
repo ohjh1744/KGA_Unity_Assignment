@@ -40,7 +40,7 @@ public class LobbyPanel : MonoBehaviour
             }
 
             // 방의 정보가 변경된 경우
-            else if (roomDictionary.ContainsKey((string)info.Name) == true)
+            else if (roomDictionary.ContainsKey(info.Name) == true)
             {
                 RoomEntry roomEntry = roomDictionary[info.Name];
                 roomEntry.SetRoomInfo(info);

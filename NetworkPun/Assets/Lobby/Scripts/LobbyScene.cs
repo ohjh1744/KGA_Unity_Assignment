@@ -15,7 +15,24 @@ public class LobbyScene : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        SetActivePanel(Panel.Login);
+        PhotonNetwork.AutomaticallySyncScene = true;
+
+        if (PhotonNetwork.InRoom)
+        {
+            SetActivePanel(Panel.Room);
+        }
+        else if (PhotonNetwork.InLobby)
+        {
+            SetActivePanel(Panel.Lobby);
+        }
+        else if (PhotonNetwork.IsConnected)
+        {
+            SetActivePanel(Panel.Menu);
+        }
+        else
+        {
+            SetActivePanel(Panel.Login);
+        }
     }
 
     public override void OnConnectedToMaster()
@@ -97,6 +114,11 @@ public class LobbyScene : MonoBehaviourPunCallbacks
         // 1. 처음 로비 입장 시 : 모든 방 목록을 전달
         // 2. 입장 중 방 목록이 변경되는 경우 : 변경된 방 목록만 전달
         lobbyPanel.UpdateRoomList(roomList);
+    }
+
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        Debug.Log($"{newMasterClient.NickName} 플레이어가 방장이 되었습니다.");
     }
 
     private void SetActivePanel(Panel panel)

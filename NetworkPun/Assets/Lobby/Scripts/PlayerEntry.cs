@@ -15,9 +15,24 @@ public class PlayerEntry : MonoBehaviour
 
     public void SetPlayer(Player player)
     {
-        nameText.text = player.NickName;
+        if (player.IsMasterClient)
+        {
+            nameText.text = $"Master\n{player.NickName}";
+        }
+        else
+        {
+            nameText.text = player.NickName;
+        }
         readyButton.gameObject.SetActive(true);
         readyButton.interactable = player == PhotonNetwork.LocalPlayer;
+        if (player.GetReady())
+        {
+            readyText.text = "Ready";
+        }
+        else
+        {
+            readyText.text = "";
+        }
     }
 
     public void SetEmpty()
@@ -30,15 +45,13 @@ public class PlayerEntry : MonoBehaviour
     public void Ready()
     {
         bool ready = PhotonNetwork.LocalPlayer.GetReady();
-        ready = !ready;
-        PhotonNetwork.LocalPlayer.SetReady(ready);
         if (ready)
         {
-            readyText.text = "Ready";
+            PhotonNetwork.LocalPlayer.SetReady(false);
         }
         else
         {
-            readyText.text = "";
+            PhotonNetwork.LocalPlayer.SetReady(true);
         }
     }
 }
