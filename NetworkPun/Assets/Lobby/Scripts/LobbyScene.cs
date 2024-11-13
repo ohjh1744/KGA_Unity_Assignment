@@ -15,6 +15,7 @@ public class LobbyScene : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        // 씬 동기화
         PhotonNetwork.AutomaticallySyncScene = true;
 
         if (PhotonNetwork.InRoom)
@@ -116,6 +117,7 @@ public class LobbyScene : MonoBehaviourPunCallbacks
         lobbyPanel.UpdateRoomList(roomList);
     }
 
+    // 마스터가 다른 유저로 바뀔때 호출.
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
         Debug.Log($"{newMasterClient.NickName} 플레이어가 방장이 되었습니다.");

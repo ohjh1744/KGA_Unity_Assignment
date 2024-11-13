@@ -10,6 +10,7 @@ public class LobbyPanel : MonoBehaviour
 
     private Dictionary<string, RoomEntry> roomDictionary = new Dictionary<string, RoomEntry>();
 
+    //LeaveLobby() 실행 후, LobbySCene에서 OnLeftLobby 호출.
     public void LeaveLobby()
     {
         Debug.Log("로비 퇴장 요청");
@@ -48,6 +49,7 @@ public class LobbyPanel : MonoBehaviour
         }
     }
 
+    // LobbyScene에서 OnLeftLobby가 호출 되면 ClearRoomEntries 실행. -> 로비에서 나가면 기존의 모든 방 정보를 없애주기.
     public void ClearRoomEntries()
     {
         foreach (string name in roomDictionary.Keys)

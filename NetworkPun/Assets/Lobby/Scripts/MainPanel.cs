@@ -12,9 +12,11 @@ public class MainPanel : MonoBehaviour
 
     private void OnEnable()
     {
+        // 기본적으로 항상 CreateRoomPanel을 false 상태로 두기.
         createRoomPanel.SetActive(false);
     }
 
+    //CreateRoomButton 버튼의 OnClick event와 연결됨.
     public void CreateRoomMenu()
     {
         createRoomPanel.SetActive(true);
@@ -23,6 +25,7 @@ public class MainPanel : MonoBehaviour
         maxPlayerInputField.text = "8";
     }
 
+    // RoomOptions를 이용하여 방의 Option을 설정하고, PhotonNetwork.CreateRoom 실행 -> LobbyScene의 OnCreateRoom 이벤트가 호출됨.
     public void CreateRoomConfirm()
     {
         string roomName = roomNameInputField.text;
@@ -41,11 +44,13 @@ public class MainPanel : MonoBehaviour
         PhotonNetwork.CreateRoom(roomName, options);
     }
 
+    //CreateRoomPanel의 Cancel 버튼의 Onclick event와 연결됨.
     public void CreateRoomCancel()
     {
         createRoomPanel.SetActive(false);
     }
 
+    //Randommatching 버튼의 OnClick event와 연결됨.
     public void RandomMatching()
     {
         Debug.Log("랜덤 매칭 요청");
@@ -59,12 +64,14 @@ public class MainPanel : MonoBehaviour
         PhotonNetwork.JoinRandomOrCreateRoom(roomName : name, roomOptions : options);
     }
 
+    // PhotonNetwork.JoinLobby()를 실행 하면 LobbyScene의  OnJoinedLobby이벤트 호출.
     public void JoinLobby()
     {
         Debug.Log("로비 입장 요청");
         PhotonNetwork.JoinLobby();
     }
 
+    // PhotonNetwork.DIsconnect()를 실행 하면 LobbyScenedml OnDisconnected이벤트 호출.
     public void Logout()
     {
         Debug.Log("로그아웃 요청");
