@@ -21,6 +21,7 @@ public class RoomPanel : MonoBehaviour
 
         //localPlayer의 Ready false로 시작하기.
         PhotonNetwork.LocalPlayer.SetReady(false);
+        PhotonNetwork.LocalPlayer.SetLoad(false);
     }
 
     private void OnDisable()

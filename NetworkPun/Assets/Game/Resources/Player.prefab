@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2152435650912297605}
   - component: {fileID: 3373820318863359939}
   - component: {fileID: 219029616529386280}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,7 +112,7 @@ GameObject:
   - component: {fileID: 7458336810786653272}
   - component: {fileID: 7212282158323303213}
   - component: {fileID: 5763901083416869532}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,7 +209,7 @@ GameObject:
   - component: {fileID: 7911697812968575338}
   - component: {fileID: 7834046028587191202}
   - component: {fileID: 7882200127104344429}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -251,6 +251,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
+  - {fileID: 7834046028587191202}
   - {fileID: 7882200127104344429}
   sceneViewId: 0
   InstantiationId: 0
@@ -268,8 +269,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   muzzlePoint: {fileID: 8622689825583573365}
-  bulletPrefab: {fileID: 3394002650555030347, guid: 6f64f921cfd8c8b49bdd8f09f0b2f02c, type: 3}
+  bulletPrefab: {fileID: 1269641241751218904, guid: 6f64f921cfd8c8b49bdd8f09f0b2f02c, type: 3}
   speed: 5
+  colors:
+  - {r: 0.9811321, g: 0.06016379, b: 0.06016379, a: 0}
+  - {r: 0.28167468, g: 1, b: 0.10849059, a: 0}
+  - {r: 0, g: 0.07107735, b: 1, a: 0}
+  color: {r: 0, g: 0, b: 0, a: 0}
+  bodyRender: {fileID: 3373820318863359939}
 --- !u!114 &7882200127104344429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,7 +302,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8622689825583573365}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: MuzzlePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

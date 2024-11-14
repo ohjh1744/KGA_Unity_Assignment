@@ -8,6 +8,8 @@ public class TestGameScene : MonoBehaviourPunCallbacks
 {
 
     public const string RoomName = "TestRoom";
+
+    private Coroutine spawnRoutine;
     void Start()
     {
         PhotonNetwork.LocalPlayer.NickName = $"Player {Random.Range(1000, 10000)}";
@@ -39,13 +41,51 @@ public class TestGameScene : MonoBehaviourPunCallbacks
         
         //테스트용 게임 시작 부분
         PlayerSpawn();
+
+    
+        if(PhotonNetwork.IsMasterClient == false)
+        {
+            return;
+        }
+
+        //방장만 진행할 수 있는 코드
+        spawnRoutine = StartCoroutine(MonsterSpawnRoutine());
+    }
+
+    //방장이 바뀌게 되면 새로운 방장이 돌려줌 
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        if (newMasterClient.IsLocal)
+        {
+            spawnRoutine = StartCoroutine(MonsterSpawnRoutine());
+        }
     }
 
     private void PlayerSpawn()
     {
         Vector3 randomPos = new Vector3(Random.Range(-5f, 5f), 0, Random.Range(-5f, 5f));
 
-        PhotonNetwork.Instantiate("Player", randomPos, Quaternion.identity);
+        Color color = Random.ColorHSV();
+        object[] data = { color.r, color.g, color.b };
+
+        PhotonNetwork.Instantiate("Player", randomPos, Quaternion.identity, data: data);
+    }
+
+    IEnumerator MonsterSpawnRoutine()
+    {
+        WaitForSeconds delay = new WaitForSeconds(3f);
+
+        while (true)
+        {
+            yield return delay;
+            Vector3 randomPos = new Vector3(Random.Range(-5f, 5f), 0, Random.Range(-5f, 5f));
+            PhotonNetwork.InstantiateRoomObject("Monster", randomPos, Quaternion.identity);
+        }
+        //for(int i = 0; i < 3; i++)
+        //{
+        //    Vector3 randomPos = new Vector3(Random.Range(-5f, 5f), 0, Random.Range(-5f, 5f));
+        //    PhotonNetwork.InstantiateRoomObject("Monster", randomPos, Quaternion.identity);
+        //}
     }
 
 

@@ -1,29 +1,58 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Photon.Pun;
-using System.Security.Cryptography;
+using Photon.Pun.UtilityScripts;
+using UnityEngine;
 
-public class PlayerController : MonoBehaviourPun
+public class PlayerController : MonoBehaviourPun, IPunObservable
 {
     [SerializeField] Transform muzzlePoint;
-    [SerializeField] GameObject bulletPrefab;
+    [SerializeField] Bullet bulletPrefab;
     [SerializeField] float speed;
 
+    [SerializeField] Color[] colors;
+    [SerializeField] Color color;
+    [SerializeField] Renderer bodyRender;
+
+    private void Start()
+    {
+        int number = photonView.Owner.GetPlayerNumber();
+        color = colors[number];
+
+        //object[] data = photonView.InstantiationData;
+        //color.r = (float)data[0];
+        //color.g = (float)data[1];
+        //color.b = (float)data[2];
+
+        bodyRender.material.color = color;
+
+    }
     private void Update()
     {
-
-        if(photonView.IsMine == false)
+        //소유권자만 실행할 수 있도록
+        if (photonView.IsMine == false)
         {
             return;
         }
-        //소유권자꺼만 이동할수있도록함.
+       
         Move();
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Fire();
+            photonView.RPC(nameof(Fire), RpcTarget.AllViaServer, muzzlePoint.position, muzzlePoint.rotation);
         }
     }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(speed);
+        }
+        else if (stream.IsReading)
+        {
+            speed = (float)stream.ReceiveNext();
+        }
+    }
+
 
     private void Move()
     {
@@ -31,7 +60,7 @@ public class PlayerController : MonoBehaviourPun
         moveDir.x = Input.GetAxisRaw("Horizontal");
         moveDir.z = Input.GetAxisRaw("Vertical");
 
-        if(moveDir == Vector3.zero)
+        if (moveDir == Vector3.zero)
         {
             return;
         }
@@ -40,14 +69,14 @@ public class PlayerController : MonoBehaviourPun
         transform.forward = moveDir.normalized;
     }
 
-    private void Fire()
-    {
-        photonView.RPC("FireRPC", RpcTarget.All, muzzlePoint.position, muzzlePoint.rotation);
-    }
 
     [PunRPC]
-    private void FireRPC(Vector3 position, Quaternion rotation)
+    private void Fire(Vector3 position, Quaternion rotation, PhotonMessageInfo info)
     {
+        // 현재시간 - 보낸시간 = 지연시간
+        float lag = Mathf.Abs((float)PhotonNetwork.Time - (float)info.SentServerTime);
+
+        position += bulletPrefab.Speed * lag * (rotation * Vector3.forward);
         Instantiate(bulletPrefab, position, rotation);
     }
 

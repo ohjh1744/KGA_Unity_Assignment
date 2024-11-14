@@ -6,11 +6,11 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] Rigidbody rigid;
-    [SerializeField] float speed;
+    public float Speed;
 
     private void Start()
     {
-        rigid.velocity = transform.forward * speed;
+        rigid.velocity = transform.forward * Speed;
 
         Destroy(gameObject, 5f);
     }

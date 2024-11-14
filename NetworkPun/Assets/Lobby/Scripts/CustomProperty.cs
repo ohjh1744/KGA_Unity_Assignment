@@ -37,4 +37,26 @@ public static class CustomProperty
             return false;
         }
     }
+
+    public const string LOAD = "Load";
+
+    public static void SetLoad(this Player player, bool load)
+    {
+        PhotonHashtable customProperty = new PhotonHashtable();
+        customProperty[LOAD] = load;
+        player.SetCustomProperties(customProperty);
+    }
+
+    public static bool GetLoad(this Player player)
+    {
+        PhotonHashtable customProperty = player.CustomProperties;
+        if (customProperty.ContainsKey(LOAD))
+        {
+            return (bool)customProperty[LOAD];
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
