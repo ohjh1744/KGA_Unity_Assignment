@@ -23,6 +23,14 @@ public class NickNamePanel : MonoBehaviour
         FirebaseUser user = BackendManager.Auth.CurrentUser;
         if (user == null)
             return;
+
+        //만약 기존의 이름과 새로운 이름이 같다면 return
+        if(user.DisplayName == nickNameInputField.text)
+        {
+            Debug.LogError("기존의 이름과 다른 새로운 이름을 설정해주세요");
+            return;
+        }
+
         //파이어베이스에서는 닉네임을 비어두는것을 오류로 보지 않음.
         UserProfile profile = new UserProfile();
         profile.DisplayName = nickName;
@@ -51,4 +59,6 @@ public class NickNamePanel : MonoBehaviour
             gameObject.SetActive(false);
         });
     }
+
+
 }

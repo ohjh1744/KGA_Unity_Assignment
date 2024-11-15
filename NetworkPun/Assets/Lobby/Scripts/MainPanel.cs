@@ -11,6 +11,9 @@ public class MainPanel : MonoBehaviour
     [SerializeField] GameObject createRoomPanel;
     [SerializeField] TMP_InputField roomNameInputField;
     [SerializeField] TMP_InputField maxPlayerInputField;
+    [SerializeField] TMP_InputField emailInputField;
+    [SerializeField] GameObject checkForDeletePanel;
+    [SerializeField] GameObject realDeletePanel;
 
     private void OnEnable()
     {
@@ -80,9 +83,24 @@ public class MainPanel : MonoBehaviour
         PhotonNetwork.Disconnect();
     }
 
+    public void CheckForDeleteUser()
+    {
+        FirebaseUser user = BackendManager.Auth.CurrentUser;
+
+        if(user.Email != emailInputField.text)
+        {
+            Debug.LogError("Email을 잘못 입력하였습니다.");
+            return;
+        }
+
+        realDeletePanel.SetActive(true);
+
+    }
+
     public void DeleteUser()
     {
         FirebaseUser user = BackendManager.Auth.CurrentUser;
+
         user.DeleteAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsCanceled)
@@ -99,5 +117,11 @@ public class MainPanel : MonoBehaviour
             Debug.Log("User deleted successfully.");
             PhotonNetwork.Disconnect();
         });
+
+        checkForDeletePanel.SetActive(false);
+        realDeletePanel.SetActive(false);
+        gameObject.SetActive(false);
+
+
     }
 }
