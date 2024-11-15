@@ -14,6 +14,8 @@ public class LoginPanel : MonoBehaviour
 
     [SerializeField] GameObject nickNamePanel;
     [SerializeField] GameObject verifyPanel;
+
+    [SerializeField] TMP_Text checkText;
     public void Login()
     {
         string email = emailInputField.text;
@@ -40,14 +42,9 @@ public class LoginPanel : MonoBehaviour
 
                     switch (errorCode)
                     {
-                        case AuthError.InvalidEmail:
-                            Debug.LogError("유효하지 않는 이메일형식 입니다.");
-                            break;
                         case AuthError.UserNotFound:
-                            Debug.LogError("존재하지 않는 계정입니다.");
-                            break;
-                        case AuthError.WrongPassword:
-                            Debug.LogError("비밀번호가 잘못되었습니다.");
+                            Debug.LogError("존재 하지 않는 계정입니다.");
+                            checkText.text = "Not Exists Email";
                             break;
                         default:
                             Debug.LogError("Firebase 로그인 중 알 수 없는 오류가 발생했습니다: " + firebaseException.Message);
@@ -59,10 +56,12 @@ public class LoginPanel : MonoBehaviour
                     Debug.LogError("FirebaseException이 아닌 다른 예외가 발생했습니다: " + exception?.ToString());
                 }
 
+                
                 return;
             }
 
             //로그인성공하면
+            checkText.text = "";
             AuthResult result = task.Result;
             Debug.Log($"User signed in successfully: {result.User.DisplayName} ({result.User.UserId})");
             CheckUserInfo();
