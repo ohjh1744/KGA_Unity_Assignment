@@ -3,6 +3,7 @@ using Firebase.Auth;
 using Firebase.Extensions;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using WebSocketSharp;
@@ -13,6 +14,40 @@ public class SignUpPanel : MonoBehaviour
     [SerializeField] TMP_InputField emailInputField;
     [SerializeField] TMP_InputField passwordInputFIeld;
     [SerializeField] TMP_InputField passwordConfirmInputFIeld;
+
+    private bool isCheck;
+
+    public void CheckEmail()
+    {
+        string email = emailInputField.text;
+        BackendManager.Auth.FetchProvidersForEmailAsync(email).ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCanceled)
+            {
+                Debug.LogError("FetchProvidersForEmailAsync was canceled.");
+                return;
+            }
+
+            if (task.IsFaulted)
+            {
+                Debug.LogError("FetchProvidersForEmailAsync encountered an error: " + task.Exception);
+                return;
+            }
+
+            var providers = task.Result;
+
+            if (providers != null)
+            {
+                Debug.LogError("이 이메일은 이미 가입된 이메일입니다.");
+                return;
+            }
+
+            isCheck = true;
+            Debug.Log("중복체크확인!");
+
+        });
+
+    }
 
     public void SignUp()
     {
@@ -44,6 +79,19 @@ public class SignUpPanel : MonoBehaviour
             }
             if (task.IsFaulted)
             {
+                FirebaseException firebaseException = task.Exception?.InnerException as FirebaseException;
+                if(firebaseException != null)
+                {
+                    AuthError errorCode = (AuthError)firebaseException.ErrorCode;
+                    Debug.Log(errorCode.ToString());
+                    switch (errorCode)
+                    {
+                        case AuthError.EmailAlreadyInUse:
+                            Debug.LogError("이 이메일은 이미 가입된 이메일입니다.");
+                            return;
+                    }
+                }
+
                 Debug.LogError("CreateUserWithEmailAndPasswordAsync encountered an error: " + task.Exception);
                 return;
             }
