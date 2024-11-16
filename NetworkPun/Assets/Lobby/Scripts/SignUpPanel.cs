@@ -19,85 +19,6 @@ public class SignUpPanel : MonoBehaviour
 
     private bool isCheck;
 
-    //public void CheckEmail()
-    //{
-    //    string email = emailInputField.text;
-    //    BackendManager.Auth.FetchProvidersForEmailAsync(email).ContinueWithOnMainThread(task =>
-    //    {
-    //        if (task.IsCanceled)
-    //        {
-    //            Debug.Log("Provider fetch canceled.");
-    //        }
-    //        else if (task.IsFaulted)
-    //        {
-    //            Debug.Log("Provider fetch encountered an error.");
-    //            Debug.Log(task.Exception.ToString());
-    //        }
-    //        else if (task.IsCompleted)
-    //        {
-    //            Debug.Log("Email Providers:");
-    //            foreach (string provider in task.Result)
-    //            {
-    //                Debug.Log(provider);
-    //            }
-    //        }
-
-    //    });
-    //}
-
-    public void CheckEmail()
-    {
-       string email = emailInputField.text;
-    string pass = passwordInputFIeld.text;
-    string confirm = passwordConfirmInputFIeld.text;
-
-    if (email.IsNullOrEmpty())
-    {
-        Debug.LogWarning("이메일을 입력해주세요");
-        return;
-    }
-
-    if (pass != confirm)
-    {
-        Debug.LogWarning("패스워드가 일치하지 않습니다");
-        return;
-    }
-
-    // 이메일 중복 여부만 체크 (계정 생성하지 않음)
-    BackendManager.Auth.FetchProvidersForEmailAsync(email).ContinueWithOnMainThread(task =>
-    {
-        if (task.IsCanceled)
-        {
-            Debug.LogError("FetchProvidersForEmailAsync was canceled.");
-            return;
-        }
-
-        if (task.IsFaulted)
-        {
-            Debug.LogError("FetchProvidersForEmailAsync encountered an error: " + task.Exception);
-            checkText.text = "Please enter a valid email.";
-            return;
-        }
-
-        var providers = task.Result;
-
-        // 이메일이 이미 다른 계정에 사용되고 있는 경우
-        if (providers.Any()) // 이메일이 이미 등록된 경우
-        {
-            Debug.LogError("이 이메일은 이미 가입된 이메일입니다.");
-            checkText.text = "Already Exists Email";  // 이미 가입된 이메일입니다 메시지
-            isCheck = false;
-        }
-        else
-        {
-            // 이메일이 사용되지 않은 경우 (계정 생성은 하지 않음)
-            Debug.Log("이 이메일은 사용할 수 있습니다.");
-            checkText.text = "Can Use Email";  // 이메일을 사용할 수 있습니다 메시지
-            isCheck = true;
-        }
-    });
-    }
-
     public void SignUp()
     {
         string email = emailInputField.text;
@@ -144,14 +65,12 @@ public class SignUpPanel : MonoBehaviour
                 return;
             }
 
-            if ( task.IsCompleted)
-            {
-                // Firebase user has been created.
-                AuthResult result = task.Result;
-                Debug.Log($"Firebase user created successfully: {result.User.DisplayName} ({result.User.UserId})");
-                //회원가입 성공하면 나가기
-                gameObject.SetActive(false);
-            }
+            // Firebase user has been created.
+            AuthResult result = task.Result;
+            Debug.LogError("사용 가능한 계정.");
+            Debug.Log($"Firebase user created successfully: {result.User.DisplayName} ({result.User.UserId})");
+            //회원가입 성공하면 나가기
+            gameObject.SetActive(false);
         });
     }
 
