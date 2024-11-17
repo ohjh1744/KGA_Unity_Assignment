@@ -12,6 +12,8 @@ public class MainPanel : MonoBehaviour
     [SerializeField] TMP_InputField roomNameInputField;
     [SerializeField] TMP_InputField maxPlayerInputField;
     [SerializeField] TMP_InputField emailInputField;
+    [SerializeField] TMP_InputField passwordInputField;
+    [SerializeField] TMP_Text wrongText;
     [SerializeField] GameObject checkForDeletePanel;
     [SerializeField] GameObject realDeletePanel;
 
@@ -85,15 +87,31 @@ public class MainPanel : MonoBehaviour
 
     public void CheckForDeleteUser()
     {
+        string email = emailInputField.text;
+        string password = passwordInputField.text;
+
         FirebaseUser user = BackendManager.Auth.CurrentUser;
+        Credential credential = EmailAuthProvider.GetCredential(email, password);
 
-        if(user.Email != emailInputField.text)
+        if (user != null)
         {
-            Debug.LogError("Email을 잘못 입력하였습니다.");
-            return;
-        }
+            user.ReauthenticateAsync(credential).ContinueWithOnMainThread(task => {
+                if (task.IsCanceled)
+                {
+                    Debug.LogError("ReauthenticateAsync was canceled.");
+                    return;
+                }
+                if (task.IsFaulted)
+                {
+                    Debug.LogError("ReauthenticateAsync encountered an error: " + task.Exception);
+                    wrongText.text = "Wrong Email and PassWord";
+                    return;
+                }
 
-        realDeletePanel.SetActive(true);
+                Debug.Log("User reauthenticated successfully.");
+                realDeletePanel.SetActive(true);
+            });
+        }
 
     }
 
@@ -116,11 +134,11 @@ public class MainPanel : MonoBehaviour
 
             Debug.Log("User deleted successfully.");
             PhotonNetwork.Disconnect();
+            checkForDeletePanel.SetActive(false);
+            realDeletePanel.SetActive(false);
+            gameObject.SetActive(false);
         });
 
-        checkForDeletePanel.SetActive(false);
-        realDeletePanel.SetActive(false);
-        gameObject.SetActive(false);
 
 
     }
