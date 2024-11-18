@@ -16,6 +16,13 @@ public class LoginPanel : MonoBehaviour
     [SerializeField] GameObject verifyPanel;
 
     [SerializeField] TMP_Text checkText;
+
+    public void OnDisable()
+    {
+        emailInputField.text = "";
+        passwordInputField.text = "";
+        checkText.text = "";
+    }
     public void Login()
     {
         string email = emailInputField.text;

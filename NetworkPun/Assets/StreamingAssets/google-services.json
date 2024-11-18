@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "668044228835",
+    "firebase_url": "https://fir-study-709de-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "fir-study-709de",
+    "storage_bucket": "fir-study-709de.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:668044228835:android:fa2d2726479d6481a0add6",
+        "android_client_info": {
+          "package_name": "com.KGA.FirebaseTest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwu9UMU9sI7cSbz4kmgsOkwTHYR3SUQYY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

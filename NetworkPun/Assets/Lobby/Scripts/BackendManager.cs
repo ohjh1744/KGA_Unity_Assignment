@@ -1,5 +1,6 @@
 using Firebase;
 using Firebase.Auth;
+using Firebase.Database;
 using Firebase.Extensions;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,6 +16,10 @@ public class BackendManager : MonoBehaviour
 
     private FirebaseAuth auth;
     public static FirebaseAuth Auth {  get { return Instance.auth; } }
+
+    private FirebaseDatabase database;
+
+    public static FirebaseDatabase Database {  get { return Instance.database; } }
 
     private void Awake()
     {
@@ -39,6 +44,7 @@ public class BackendManager : MonoBehaviour
         }
     }
 
+    //호환성 여부 체크
     private void CheckDependency()
     {
         // checkandfixDependenciesasync가 요청, continuewithonmainTHread가 반응.
@@ -51,6 +57,7 @@ public class BackendManager : MonoBehaviour
                 // where app is a Firebase.FirebaseApp property of your application class.
                 app = FirebaseApp.DefaultInstance;
                 auth = FirebaseAuth.DefaultInstance;
+                database = FirebaseDatabase.DefaultInstance;
 
                 // Set a flag here to indicate whether Firebase is ready to use by your app.
                 Debug.Log("Firebase dependencies check success");
@@ -62,6 +69,7 @@ public class BackendManager : MonoBehaviour
                 app = null;
                 //인증실패햇으므로
                 auth = null;
+                database = null;
             }
         });
     }
