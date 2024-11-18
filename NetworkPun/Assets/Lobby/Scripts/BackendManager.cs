@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class BackendManager : MonoBehaviour
 {
     public static BackendManager Instance { get; private set; }
@@ -61,6 +62,7 @@ public class BackendManager : MonoBehaviour
 
                 // Set a flag here to indicate whether Firebase is ready to use by your app.
                 Debug.Log("Firebase dependencies check success");
+
             }
             else
             {
@@ -73,5 +75,6 @@ public class BackendManager : MonoBehaviour
             }
         });
     }
-    
+
 }
+
