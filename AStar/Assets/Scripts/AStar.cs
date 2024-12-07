@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class AStar : MonoBehaviour
@@ -9,7 +10,7 @@ public class AStar : MonoBehaviour
     private enum Edir { Straight = 0, Diagoanal = 4 }
 
     private Vector2Int[] _direction =
-{
+    {
         new Vector2Int( 0, +1), // 상
         new Vector2Int( 0, -1), // 하
         new Vector2Int(-1,  0), // 좌
@@ -26,14 +27,16 @@ public class AStar : MonoBehaviour
 
     private List<ASNode> _priorityQueue; //계산한 정점들
 
-    private List<Vector2Int> _path; //A스타경로
+    [SerializeField] private List<Vector2Int> _path; //A스타경로
 
     private HashSet<Vector2Int> _checkNodes; // 방문한 정점들
 
     void Start()
     {
         Vector2Int start = new Vector2Int((int)_start.position.x, (int)_start.position.y);
+
         Vector2Int end = new Vector2Int((int)_end.position.x, (int)_end.position.y);
+
         DoAStar(start, end);
     }
 
