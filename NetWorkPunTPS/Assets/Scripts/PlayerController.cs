@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviourPun, IPunObservable
 {
+    [SerializeField] PlayerData _playerData;
 
     [SerializeField] Color[] _colors;
 
@@ -17,6 +18,8 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     [SerializeField] Bullet _bulletPrefab;
 
     [SerializeField] Transform _muzzlePoint;
+
+    [SerializeField] Collider _coll;
 
     private float _vMove;
 
@@ -44,7 +47,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            photonView.RPC(nameof(Fire), RpcTarget.AllViaServer, _muzzlePoint.position, _muzzlePoint.rotation);
+            photonView.RPC(nameof(Fire), RpcTarget.All, _muzzlePoint.position, _muzzlePoint.rotation, 10);
         }
 
 
@@ -107,9 +110,14 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         transform.position += moveDir * _speed * Time.deltaTime;
     }
 
+
     [PunRPC]
-    private void Fire(Vector3 position, Quaternion rotation, PhotonMessageInfo info)
+    private void Fire(Vector3 position, Quaternion rotation, int damage, PhotonMessageInfo info)
     {
+        _playerData.HP -= damage;
+
+        _coll = _playerData.Coll;
+
         // 현재시간 - 보낸시간 = 지연시간
         float lag = Mathf.Abs((float)PhotonNetwork.Time - (float)info.SentServerTime);
 
@@ -121,7 +129,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
         //지연된 시간만큼 bullet이 없어지는 시간에서 빼줘서 없어지는 타이밍 동기화 맞추기.
         bullet.DesstoryTime -= lag;
-
+        Debug.Log("RPC쏘기!!!!!!!!");
     }
 
 }

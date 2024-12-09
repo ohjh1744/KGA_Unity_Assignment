@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3849318523389497057}
   - component: {fileID: 3979539065686649039}
   - component: {fileID: 2527857466398015382}
+  - component: {fileID: 6496572003516184350}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -89,6 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bc6d022a9f25e54abe373bad4baa83d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerData: {fileID: 6496572003516184350}
   _colors:
   - {r: 0.9339623, g: 0.110137045, b: 0.110137045, a: 0}
   - {r: 0.10234957, g: 0.2606513, b: 0.8679245, a: 0}
@@ -103,6 +105,21 @@ MonoBehaviour:
   _speed: 5
   _bulletPrefab: {fileID: 7988710409434750938, guid: 81fb5d15aca4e004c926b1b1fe9fecc4, type: 3}
   _muzzlePoint: {fileID: 1739824193315596214}
+  _coll: {fileID: 0}
+--- !u!114 &6496572003516184350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2993518819656948618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31cf8e3dce4d220489537625d431ee00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hp: 100
+  _colider: {fileID: 4173072917363575805}
 --- !u!1 &3377724400414796610
 GameObject:
   m_ObjectHideFlags: 0
