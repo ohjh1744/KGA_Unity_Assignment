@@ -8,4 +8,6 @@ public class PlayerData : MonoBehaviour
 
     [SerializeField] private Collider _colider;
     public Collider Coll { get { return _colider; } set { _colider = value; } }
+
+
 }
