@@ -53,6 +53,9 @@ public class LoginPanel : MonoBehaviour
                             Debug.LogError("존재 하지 않는 계정입니다.");
                             checkText.text = "Not Exists Email";
                             break;
+                        case AuthError.WrongPassword:
+                            Debug.LogWarning("WrongPassword");
+                            break;
                         default:
                             Debug.LogError("Firebase 로그인 중 알 수 없는 오류가 발생했습니다: " + firebaseException.Message);
                             break;
