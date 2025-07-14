@@ -646,8 +646,8 @@ MonoBehaviour:
   _player: {fileID: 0}
   _monsterList: []
   _coin: {fileID: 0}
-  _bgm: {fileID: 0}
-  _image: {fileID: 0}
+  _bgm: {fileID: 45289785}
+  _image: {fileID: 879451638}
 --- !u!4 &2032080332
 Transform:
   m_ObjectHideFlags: 0
