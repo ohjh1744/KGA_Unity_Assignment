@@ -143,6 +143,7 @@ public class AddressableManager : MonoBehaviour
         Addressables.ReleaseInstance(_coin);
     }
 
+    // 다운받을 파일 여부 확인
     IEnumerator CheckDownLoadFIle()
     {
         List<string> labels = new List<string>() { _defaultLabel.labelString, _uiLabel.labelString, _soundLabel.labelString };
@@ -177,6 +178,7 @@ public class AddressableManager : MonoBehaviour
         }
     }
 
+    //파일 사이즈 사이즈 크기에 맞는 단위로 표현하기 위한 함수
     StringBuilder GetFileSize(long byteCnt)
     {
         StringBuilder sb = new StringBuilder();
@@ -207,6 +209,7 @@ public class AddressableManager : MonoBehaviour
         return sb;
     }
 
+    //다운로드 시작
     IEnumerator DownLoad()
     {
         List<string> labels = new List<string>() { _defaultLabel.labelString, _uiLabel.labelString, _soundLabel.labelString };
@@ -231,6 +234,7 @@ public class AddressableManager : MonoBehaviour
         yield return CheckDownLoadStatus();
     }
 
+    // 어드레서블 라벨 별로 다운로드 받기
     IEnumerator DownLoadPerLabel(string label)
     {
         _patchMap.Add(label, 0); // 각레이블에 대한 다운 상태
@@ -252,6 +256,7 @@ public class AddressableManager : MonoBehaviour
         Debug.Log("하나의 Label 다운끝!");
     }
 
+    //현재 다운로드 상황 알려주기
     IEnumerator CheckDownLoadStatus()
     {
         StringBuilder sb = new StringBuilder();
