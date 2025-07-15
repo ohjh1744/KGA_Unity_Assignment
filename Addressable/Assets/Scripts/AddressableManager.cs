@@ -1,8 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Xml.Schema;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.AddressableAssets;
+using UnityEngine.AI;
+using UnityEngine.UI;
+using static UnityEngine.Rendering.VirtualTexturing.Debugging;
 
 public class AddressableManager : MonoBehaviour
 {
@@ -16,31 +22,46 @@ public class AddressableManager : MonoBehaviour
  
     //실제 Objects들
     [SerializeField] private GameObject _player;
-    [SerializeField] private List<GameObject> _monsterList;
+    [SerializeField] private List<GameObject> _monsterList = new List<GameObject>();
     [SerializeField] private GameObject _coin;
     [SerializeField] private AudioSource _bgm;
     [SerializeField] private Image _image;
 
-    private Coroutine _routine;
+    //현재 다운진행을 보여주기 위한 UI
+    [SerializeField] private GameObject _downPanel;
+    [SerializeField] private TextMeshProUGUI _downPercentText;
+    [SerializeField] private TextMeshProUGUI _downSizeText;
+    [SerializeField] private Slider _downPercentSlider;
 
-    private void Awake()
-    {
-        _monsterList = new List<GameObject>();
-    }
+    //어드레서블 라벨
+    [SerializeField] private AssetLabelReference _defaultLabel;
+    [SerializeField] private AssetLabelReference _uiLabel;
+    [SerializeField] private AssetLabelReference _soundLabel;
+
+
+    private long _downSize;
+    private Dictionary<string, long> _patchMap = new Dictionary<string, long>();
+
 
     void Start()
     {
-        _routine = StartCoroutine(InitAddressable());
+        StartCoroutine(InitAddressable());
     }
 
     private void Update()
     {
+        // 에셋 다운받기
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            StartCoroutine(DownLoad());
+        }
+
         // 에셋 가져오기
         if (Input.GetKeyDown(KeyCode.D))
         {
             GetAssets();
         }
-
+        
         // 에셋 해제하기
         if (Input.GetKeyDown(KeyCode.C))
         {
@@ -55,8 +76,10 @@ public class AddressableManager : MonoBehaviour
 
         yield return init; //초기화 완료될떄까지 기다림
 
-        _routine = null;
         Debug.Log("어드레서블 초기화 완료");
+
+        StartCoroutine(CheckDownLoadFIle()); //다운받을 파일있는지 확인
+
     }
 
     private void GetAssets()
@@ -115,12 +138,154 @@ public class AddressableManager : MonoBehaviour
         for(int i = _monsterObjects.Length; i > 0; i--)
         {
             Addressables.ReleaseInstance(_monsterList[i-1]);
-            //_monsterList.RemoveAt(i - 1);
+            _monsterList.RemoveAt(i - 1);
         }
         Addressables.ReleaseInstance(_coin);
-
-  
     }
 
+    IEnumerator CheckDownLoadFIle()
+    {
+        List<string> labels = new List<string>() { _defaultLabel.labelString, _uiLabel.labelString, _soundLabel.labelString };
 
+        _downSize = 0;
+
+        foreach(string label in labels)
+        {
+            // 라벨별로 다운로드할 사이즈 가져오기
+            var handle = Addressables.GetDownloadSizeAsync(label);
+
+            //  작업이 완료될때까지 기다리기
+            yield return handle;
+
+            // 정상적으로 size가져오면 down로드해야할 사이즈에 추가해주기.
+            _downSize += handle.Result;
+        }
+
+
+        // 0보다 크다면 다운받을 파일이 존재하다는 것
+        if (_downSize > decimal.Zero)
+        {
+            _downSizeText.SetText(GetFileSize(_downSize));
+        }
+        // 다운받을 파일이 존재하지 않다면
+        else
+        {
+            _downSizeText.SetText("0 Bytes");
+            _downPercentText.SetText("100 %");
+            _downPercentSlider.value = 1f;
+            _downPanel.SetActive(false);
+        }
+    }
+
+    StringBuilder GetFileSize(long byteCnt)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        Debug.Log($"총 사이즈: {byteCnt}");
+
+        if ((byteCnt >= 1073741824.0))
+        {
+            sb.Append(string.Format("{0: ##.##}", byteCnt / 1073741824.0));
+            sb.Append("GB");
+        }
+        else if ((byteCnt >= 1048576.0))
+        {
+            sb.Append(string.Format("{0: ##.##}", byteCnt / 1048576.0));
+            sb.Append("MB");
+        }
+        else if ((byteCnt >= 1024.0))
+        {
+            sb.Append(string.Format("{0: ##.##}", byteCnt / 1024.0));
+            sb.Append("KB");
+        }
+        else if ((byteCnt > 0 && byteCnt < 1024.0))
+        {
+            sb.Append(byteCnt.ToString());
+            sb.Append("Bytes");
+        }
+
+        return sb;
+    }
+
+    IEnumerator DownLoad()
+    {
+        List<string> labels = new List<string>() { _defaultLabel.labelString, _uiLabel.labelString, _soundLabel.labelString };
+        
+        foreach (string label in labels)
+        {
+            // 라벨별로 다운로드할 사이즈 가져오기
+            var handle = Addressables.GetDownloadSizeAsync(label);
+
+            //  작업이 완료될때까지 기다리기
+            yield return handle;
+
+            // 패치할 내용이 있다면 다운받기
+            if(handle.Result != decimal.Zero)
+            {
+                StartCoroutine(DownLoadPerLabel(label));
+            }
+        }
+
+        // 위 포문을 통해 라벨별로 다운을 시작하고
+        // 다운 과정을 UI로 표시
+        yield return CheckDownLoadStatus();
+    }
+
+    IEnumerator DownLoadPerLabel(string label)
+    {
+        _patchMap.Add(label, 0); // 각레이블에 대한 다운 상태
+
+        var handle = Addressables.DownloadDependenciesAsync(label, false);
+
+        while (!handle.IsDone)
+        {
+            _patchMap[label] = handle.GetDownloadStatus().DownloadedBytes;
+
+            //한프레임씩 대기하면서 반복
+            yield return new WaitForEndOfFrame();
+        }
+
+        _patchMap[label] = handle.GetDownloadStatus().TotalBytes;
+
+        Addressables.Release(handle);
+
+        Debug.Log("하나의 Label 다운끝!");
+    }
+
+    IEnumerator CheckDownLoadStatus()
+    {
+        StringBuilder sb = new StringBuilder();
+        long total = 0;
+
+        while (true)
+        {
+            // 다운받은 파일 크기 구하기
+            total += _patchMap.Sum(tmp => tmp.Value);
+
+            // 슬라이더에 표시
+            _downPercentSlider.value = (float)total / (float)_downSize;
+
+            // 텍스트에 표시
+            int curPatchValue = (int)(_downPercentSlider.value * 100);
+            sb.Clear();
+            sb.Append(curPatchValue);
+            sb.Append("%");
+            _downPercentText.SetText(sb);
+
+            Debug.Log($"check 중! 현재 {_downPercentSlider.value}%, {total}Size만큼 다운받음");
+
+            //다운로드가 다 완료 됏다면
+            if (total == _downSize)
+            {
+                // 다운로드 패널 꺼주기
+                _downPanel.SetActive(false);
+                break;
+            }
+
+            total = 0;
+            yield return new WaitForEndOfFrame();
+
+        }
+    }
 }
+

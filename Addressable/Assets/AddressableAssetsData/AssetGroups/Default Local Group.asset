@@ -40,7 +40,8 @@ MonoBehaviour:
   - m_GUID: 9b0799a065298504691dbd88a9400f67
     m_Address: Assets/Prefabs/Player.prefab
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - default
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: cf31c9fb013b131429bf935a26c8c4f4, type: 2}
   m_SchemaSet:

@@ -65,7 +65,7 @@ MonoBehaviour:
       - m_Id: fd4092ee67ad6ed49b512f44db3e6185
         m_Value: ServerData/[BuildTarget]
       - m_Id: ac3e2f29c29c9c34eb71cf1b5408620b
-        m_Value: http://[PrivateIpAddress]:[HostingServicePort]
+        m_Value: https://s3.ap-southeast-2.amazonaws.com/jhonohtest.addressable/[BuildTarget]
     m_ProfileEntryNames:
     - m_Id: e7f7848238fe9ff4c89dd49f1d7d200e
       m_Name: BuildTarget
