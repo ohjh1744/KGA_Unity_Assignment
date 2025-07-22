@@ -9,7 +9,8 @@ using UnityEngine.UI;
 public class GPGSManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _userInfoText;
-    [SerializeField] private Button _button;
+    [SerializeField] private Button _RoginButton;
+    [SerializeField] private Button _RogoutButton;
 
     private void Start()
     {
@@ -45,7 +46,7 @@ public class GPGSManager : MonoBehaviour
         //이전에 로그인 하지 않은 상태라면, 즉 자동로그인실패하면 버튼 활성화
         else
         {
-            _button.interactable = true;
+            _RoginButton.interactable = true;
         }
     }
 
@@ -67,6 +68,17 @@ public class GPGSManager : MonoBehaviour
                 _userInfoText.text = "Manaul Failed ";
             }
         });
+    }
+
+    public void GPGS_Logout()
+    {
+        _userInfoText.text = "LogOut";
+        // 로그아웃 
+        PlayGamesPlatform.Instance.SignOut();
+        //로그인 상태 false로 변경
+        PlayerPrefs.SetInt("isLogin", 0);
+        //로그인 버튼 다시 상호작용On
+        _RoginButton.interactable = true;
     }
 
 
