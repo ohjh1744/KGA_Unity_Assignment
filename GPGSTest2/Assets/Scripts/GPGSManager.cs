@@ -11,6 +11,7 @@ using UnityEngine.UI;
 public class GPGSManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _userInfoText;
+    [SerializeField] private TextMeshProUGUI _dataDetailText;
     [SerializeField] private Button _RoginButton;
 
     [SerializeField] private int _num;
@@ -235,6 +236,7 @@ public class GPGSManager : MonoBehaviour
         {
             Debug.Log("저장된 데이터가 없음");
             _userInfoText.text = "NoSaveData";
+            _dataDetailText.text = "X";
         }
         else
         {
@@ -243,6 +245,7 @@ public class GPGSManager : MonoBehaviour
 
             //json
             _gameData = JsonUtility.FromJson<GameData>(data);
+            _dataDetailText.text = $"{data}";
         }
     }
 
@@ -263,6 +266,7 @@ public class GPGSManager : MonoBehaviour
             savedGameClient.Delete(data);
             Debug.Log("데이터 삭제 성공");
             _userInfoText.text = "Delete Clear";
+            _gameData.SetClear();
         }
         else
         {

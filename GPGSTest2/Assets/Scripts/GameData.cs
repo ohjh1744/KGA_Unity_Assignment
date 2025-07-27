@@ -16,6 +16,13 @@ public class GameData
 
     [SerializeField] private List<UnitData> _unitData;
     public List<UnitData> UnitData{  get { return _unitData; } set { _unitData = value; } }
+
+    public void SetClear()
+    {
+        _gold = 1;
+        _time = 3;
+        _isClear = false;
+    }
 }
 
 [System.Serializable]
