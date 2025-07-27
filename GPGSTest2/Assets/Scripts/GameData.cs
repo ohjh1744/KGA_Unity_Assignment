@@ -14,6 +14,14 @@ public class GameData
     [SerializeField] private  bool _isClear = false;
     public bool IsClear { get { return _isClear; } set { _isClear = value; } }
 
-    [SerializeField] private float[] _skillTime;
-    public float[] SkillTime {  get { return _skillTime; } set { _skillTime = value; } }
+    [SerializeField] private List<UnitData> _unitData;
+    public List<UnitData> UnitData{  get { return _unitData; } set { _unitData = value; } }
+}
+
+[System.Serializable]
+public class UnitData
+{
+    public string Name;
+
+    public int Level;
 }

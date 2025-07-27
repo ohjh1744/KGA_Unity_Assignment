@@ -1864,15 +1864,15 @@ MonoBehaviour:
   _RoginButton: {fileID: 594299924}
   _num: 0
   _timne: 150000
-  _fileName: GameData
   _gameData:
     _gold: 1
     _time: 3
     _isClear: 0
-    _skillTime:
-    - 1
-    - 2
-    - 3
+    _unitData:
+    - Name: Ork
+      Level: 2
+    - Name: Zombie
+      Level: 1
 --- !u!4 &682402085
 Transform:
   m_ObjectHideFlags: 0
