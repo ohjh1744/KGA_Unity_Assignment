@@ -1,3 +1,5 @@
+using Google.Play.AppUpdate;
+using Google.Play.Common;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using GooglePlayGames.BasicApi.SavedGame;
@@ -12,7 +14,6 @@ public class GPGSManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _userInfoText;
     [SerializeField] private TextMeshProUGUI _dataDetailText;
-    [SerializeField] private Button _RoginButton;
 
     [SerializeField] private int _num;
     [SerializeField] private long _timne;
@@ -20,83 +21,37 @@ public class GPGSManager : MonoBehaviour
     private static string _fileName = "file.dat";
     [SerializeField] private  GameData _gameData;
 
-    private void Awake()
-    {
-        PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder().EnableSavedGames().Build();
-        // 설정 gpgs에 반영 및 초기화
-        PlayGamesPlatform.InitializeInstance(config);
-        // gpgs 활성화
-        PlayGamesPlatform.Activate();
-    }
+
+    [SerializeField] private GameObject _mainPanel;
+    private AppUpdateManager _appUpdateManager;
+
 
     private void Start()
     {
-        GPGS_AutoLogin();
+        StartCoroutine(CheckForUpdate());
     }
 
-    private void GPGS_AutoLogin()
+    private void Login()
     {
-        Debug.Log("자동 로그인 시도1!");
-        int isLogin = PlayerPrefs.GetInt("isLogin");
-        
-        //이전에 로그인을 한 상태라면
-        if (isLogin == 1)
+        PlayGamesPlatform.Instance.Authenticate(ProcessAuthentication);
+    }
+
+    internal void ProcessAuthentication(SignInStatus status)
+    {
+        if (status == SignInStatus.Success)
         {
-            Debug.Log("자동로그인 성공!");
-            PlayGamesPlatform.Instance.Authenticate(SignInInteractivity.CanPromptOnce, (result) => {
+            string displayName = PlayGamesPlatform.Instance.GetUserDisplayName();
+            string userID = PlayGamesPlatform.Instance.GetUserId();
 
-                if (result == SignInStatus.Success)
-                {
-                 
-                    string name = PlayGamesPlatform.Instance.GetUserDisplayName();
-                    string id = PlayGamesPlatform.Instance.GetUserId();
-                    string imgUrl = PlayGamesPlatform.Instance.GetUserImageUrl();
+            _userInfoText.text = $"자동 로그인 성공{displayName}, {userID}";
 
-                    _userInfoText.text = $"Auto Sucess {name}";
-                }
-                else
-                {
-                    _userInfoText.text = "Auto Failed ";
-                }
-            });
         }
-        //이전에 로그인 하지 않은 상태라면, 즉 자동로그인실패하면 버튼 활성화
         else
         {
-            _RoginButton.interactable = true;
+            _userInfoText.text = $"로그인 실패";
         }
     }
 
-    public void GPGS_ManualLogin()
-    {
-        PlayGamesPlatform.Instance.Authenticate(SignInInteractivity.CanPromptOnce, (result) => {
-
-            if (result == SignInStatus.Success)
-            {
-                string name = PlayGamesPlatform.Instance.GetUserDisplayName();
-                string id = PlayGamesPlatform.Instance.GetUserId();
-                string imgUrl = PlayGamesPlatform.Instance.GetUserImageUrl();
-
-                PlayerPrefs.SetInt("isLogin", 1);
-                _userInfoText.text = "Manual Sucess \n" + name;
-            }
-            else
-            {
-                _userInfoText.text = "Manaul Failed ";
-            }
-        });
-    }
-
-    public void GPGS_Logout()
-    {
-        _userInfoText.text = "LogOut";
-        // 로그아웃 
-        PlayGamesPlatform.Instance.SignOut();
-        //로그인 상태 false로 변경
-        PlayerPrefs.SetInt("isLogin", 0);
-        //로그인 버튼 다시 상호작용On
-        _RoginButton.interactable = true;
-    }
 
     public void ShowAllLeaderboard()
     {
@@ -272,6 +227,70 @@ public class GPGSManager : MonoBehaviour
         {
             Debug.Log("데이터 삭제 실패");
             _userInfoText.text = "Delete Fail";
+        }
+    }
+
+    IEnumerator CheckForUpdate()
+    {
+        Debug.Log("Check!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        //인앱 업데이트 관리를 위한 클래스 인스턴스화
+        _appUpdateManager = new AppUpdateManager();
+
+        PlayAsyncOperation<AppUpdateInfo, AppUpdateErrorCode> appUpdateInfoOperation =
+          _appUpdateManager.GetAppUpdateInfo();
+
+        // Wait until the asynchronous operation completes.
+        yield return appUpdateInfoOperation;
+
+        if (appUpdateInfoOperation.IsSuccessful)
+        {
+            var appUpdateInfoResult = appUpdateInfoOperation.GetResult();
+
+            //업데이트 가능 상태라면 
+            if(appUpdateInfoResult.UpdateAvailability == UpdateAvailability.UpdateAvailable)
+            {
+                var appUpdateOptions = AppUpdateOptions.ImmediateAppUpdateOptions();
+
+                var startUpdateRequest = _appUpdateManager.StartUpdate(appUpdateInfoResult, appUpdateOptions);
+
+                //다운받기
+                while (!startUpdateRequest.IsDone)
+                {
+                    if(startUpdateRequest.Status == AppUpdateStatus.Downloading)
+                    {
+                        Debug.Log("업데이트 다운로드 진행중");
+                    }
+                    else if(startUpdateRequest.Status == AppUpdateStatus.Downloaded)
+                    {
+                        Debug.Log("다운르도 완료");
+                    }
+                    yield return null;
+                }
+
+                //실제 설치
+                var result = _appUpdateManager.CompleteUpdate();
+
+                //완료되었는지 마지막 확인
+                while (!result.IsDone)
+                {
+                    yield return new WaitForEndOfFrame();
+                }
+
+                yield return (int)startUpdateRequest.Status;
+            }
+            //업데이트가 없는 상태라면
+            else if(appUpdateInfoResult.UpdateAvailability == UpdateAvailability.UpdateNotAvailable)
+            {
+                Debug.Log("업데이트 없음!");
+                //메인패널 켜주기
+                _mainPanel.SetActive(true);
+                //로그인 시도
+                Login();
+            }
+        }
+        else
+        {
+            Debug.Log("업데이트 오류" + appUpdateInfoOperation.Error);
         }
     }
 
