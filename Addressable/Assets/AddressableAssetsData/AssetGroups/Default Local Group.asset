@@ -13,38 +13,41 @@ MonoBehaviour:
   m_Name: Default Local Group
   m_EditorClassIdentifier: 
   m_GroupName: Default Local Group
-  m_Data:
-    m_SerializedData: []
   m_GUID: db87fadd188863643a28b9859ad3499f
   m_SerializeEntries:
-  - m_GUID: 4b811dca04d368e47914f04bbcf842e5
-    m_Address: Assets/Prefabs/Coin.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - default
   - m_GUID: 42c49b4f046fcb54d894a3a9e22903d7
     m_Address: Assets/Prefabs/Monster1.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - default
-  - m_GUID: e5ac8f4dbec7d2642b7ed81c70c79221
-    m_Address: Assets/Prefabs/Monster2.prefab
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4b811dca04d368e47914f04bbcf842e5
+    m_Address: Assets/Prefabs/Coin.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - default
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 92ea14841e6368748b0fdb0e8f7ec47c
     m_Address: Assets/Prefabs/Monster3.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - default
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9b0799a065298504691dbd88a9400f67
     m_Address: Assets/Prefabs/Player.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e5ac8f4dbec7d2642b7ed81c70c79221
+    m_Address: Assets/Prefabs/Monster2.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: cf31c9fb013b131429bf935a26c8c4f4, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 08052896f74f42847be5664123510712, type: 2}
     - {fileID: 11400000, guid: 8bb8204307c92b543a5345fa15a05276, type: 2}
+    - {fileID: 11400000, guid: 08052896f74f42847be5664123510712, type: 2}

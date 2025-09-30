@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Sprite
+  m_EditorClassIdentifier: 
+  m_GroupName: Sprite
+  m_GUID: 7fe3e70c8a8c84e4f9d303874fecc7ed
+  m_SerializeEntries:
+  - m_GUID: 10f3cacccb0c4c547be76836eba20664
+    m_Address: Assets/Simple 2D Platformer BE2/Sprites/Player.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - sprite
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: cf31c9fb013b131429bf935a26c8c4f4, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: c0bb7ae23b1f76349a195e593ba34aca, type: 2}
+    - {fileID: 11400000, guid: 5426cf5c23b24cd4f84fc391f0cf364b, type: 2}

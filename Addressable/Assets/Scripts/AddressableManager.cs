@@ -37,7 +37,7 @@ public class AddressableManager : MonoBehaviour
     [SerializeField] private AssetLabelReference _defaultLabel;
     [SerializeField] private AssetLabelReference _uiLabel;
     [SerializeField] private AssetLabelReference _soundLabel;
-
+    [SerializeField] private AssetLabelReference _spriteLabel;
 
     private long _downSize;
     private Dictionary<string, long> _patchMap = new Dictionary<string, long>();
@@ -50,21 +50,25 @@ public class AddressableManager : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log("hhh");
         // 에셋 다운받기
         if (Input.GetKeyDown(KeyCode.B))
         {
+            Debug.Log("ss");
             StartCoroutine(DownLoad());
         }
 
         // 에셋 가져오기
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetButtonDown("Fire1"))
         {
+            Debug.Log("bb");
             GetAssets();
         }
         
         // 에셋 해제하기
         if (Input.GetKeyDown(KeyCode.C))
         {
+            Debug.Log("aa");
             ReleaseAssets();
         }
     }
@@ -86,10 +90,11 @@ public class AddressableManager : MonoBehaviour
     {
         //InstantiateAsync -> Object 생성함수.
 
+        Debug.Log("시작");
         // Player
         _playerObject.InstantiateAsync().Completed += (obj) =>
         {
-            _player = obj.Result;
+            _player = obj.Result;//
         };
 
         //Monster
@@ -146,7 +151,7 @@ public class AddressableManager : MonoBehaviour
     // 다운받을 파일 여부 확인
     IEnumerator CheckDownLoadFIle()
     {
-        List<string> labels = new List<string>() { _defaultLabel.labelString, _uiLabel.labelString, _soundLabel.labelString };
+        List<string> labels = new List<string>() { _defaultLabel.labelString, _uiLabel.labelString, _soundLabel.labelString, _spriteLabel.labelString };
 
         _downSize = 0;
 
